@@ -40,8 +40,10 @@ Mengikuti tutorial [stroblp/svelte-gh-pages](https://github.com/stroblp/svelte-g
 2. Setiap rilis baru cukup:
 
 ```bash
-pnpm deploy        # = build:pages (BASE=/pmo-boppj-mobile/) lalu push dist/ ke branch gh-pages
+pnpm deploy:pages   # = build:pages (BASE=/pmo-boppj-mobile/) lalu push dist/ ke branch gh-pages
 ```
+
+   > Catatan: script sengaja dinamai `deploy:pages`, bukan `deploy` — `pnpm deploy` adalah perintah bawaan pnpm (workspace deploy) dan akan menimpa script dengan nama sama.
 
 3. Verifikasi hasil deploy di URL aplikasi di atas (propagasi GitHub Pages biasanya < 2 menit).
 
