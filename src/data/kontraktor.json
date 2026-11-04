@@ -1,0 +1,35 @@
+{
+  "akun": { "email": "kontraktor@perusahaan.co.id", "sandi": "demo1234" },
+  "pengguna": {
+    "nama": "Raka Pradipta",
+    "peran": "Site Manager",
+    "perusahaan": "PT Mitra Pesisir Nusantara",
+    "telepon": "0812-0000-0000"
+  },
+  "paket": [
+    {
+      "kode": "GSW-12",
+      "kontrak": "KTR/BOPPJ/2026/012",
+      "lokasiKerja": "Tambaklorok, Semarang Utara",
+      "bulan": ["Jun", "Jul", "Agu", "Sep", "Okt", "Nov"],
+      "rencana": [2, 6, 11, 16, 21, 25],
+      "realisasi": [2, 5, 9, 14, 19, 22]
+    },
+    {
+      "kode": "NCICD-A-03",
+      "kontrak": "KTR/BOPPJ/2026/003",
+      "lokasiKerja": "Ancol, Pademangan",
+      "bulan": ["Jun", "Jul", "Agu", "Sep", "Okt", "Nov"],
+      "rencana": [30, 38, 46, 53, 59, 63],
+      "realisasi": [31, 39, 47, 54, 60, 62]
+    },
+    {
+      "kode": "TOL-SMD-01",
+      "kontrak": "KTR/BOPPJ/2026/021",
+      "lokasiKerja": "Kaligawe, Gayamsari",
+      "bulan": ["Jun", "Jul", "Agu", "Sep", "Okt", "Nov"],
+      "rencana": [8, 14, 20, 26, 32, 38],
+      "realisasi": [7, 12, 17, 22, 28, 30]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+[
+ {
+  "id": "L-0911",
+  "kode": "NCICD-A-03",
+  "offset": 0,
+  "progres": 63,
+  "volume": 85,
+  "satuan": "m³",
+  "uraian": "Pemasangan batu pelindung lereng sisi timur, STA 0+400 sampai 0+460.",
+  "cuaca": "Berawan",
+  "tenaga": 58,
+  "status": "MENUNGGU",
+  "foto": 3
+ },
+ {
+  "id": "L-0905",
+  "kode": "NCICD-A-03",
+  "offset": -1,
+  "progres": 62,
+  "volume": 92,
+  "satuan": "m³",
+  "uraian": "Penimbunan dan pemadatan lapis dasar tanggul, 2 alat berat aktif.",
+  "cuaca": "Cerah",
+  "tenaga": 60,
+  "status": "DITERIMA",
+  "foto": 4
+ },
+ {
+  "id": "L-0897",
+  "kode": "GSW-12",
+  "offset": -1,
+  "progres": 22,
+  "volume": 40,
+  "satuan": "m³",
+  "uraian": "Pekerjaan pancang tiang uji, 6 titik selesai dari 10 titik.",
+  "cuaca": "Berawan",
+  "tenaga": 42,
+  "status": "DITERIMA",
+  "foto": 3
+ },
+ {
+  "id": "L-0890",
+  "kode": "GSW-12",
+  "offset": -2,
+  "progres": 21,
+  "volume": 36,
+  "satuan": "m³",
+  "uraian": "Mobilisasi alat pancang dan penyiapan platform kerja.",
+  "cuaca": "Hujan",
+  "tenaga": 35,
+  "status": "DITERIMA",
+  "foto": 2
+ },
+ {
+  "id": "L-0884",
+  "kode": "TOL-SMD-01",
+  "offset": -2,
+  "progres": 28,
+  "volume": 120,
+  "satuan": "m³",
+  "uraian": "Perbaikan tanah dasar pada seksi Kaligawe, tahap pemadatan.",
+  "cuaca": "Hujan",
+  "tenaga": 35,
+  "status": "DITOLAK",
+  "foto": 1,
+  "catatan": "Progres 28% lebih rendah dari laporan yang diterima sebelumnya (30%). Mohon periksa volume, atau jelaskan koreksi pada uraian kegiatan."
+ },
+ {
+  "id": "L-0871",
+  "kode": "TOL-SMD-01",
+  "offset": -5,
+  "progres": 30,
+  "volume": 110,
+  "satuan": "m³",
+  "uraian": "Pemadatan tanah dasar dan uji kepadatan lapangan.",
+  "cuaca": "Cerah",
+  "tenaga": 44,
+  "status": "DITERIMA",
+  "foto": 3
+ }
+]

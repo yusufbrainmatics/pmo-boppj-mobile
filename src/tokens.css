@@ -1,0 +1,38 @@
+/* Hallmark · design-system: DESIGN.md · tokens for PMO Kontraktor (PWA)
+ * Brand colours measured from boppj.go.id; hex kept in comments for the contrast checker. */
+:root {
+  --color-navy: oklch(32.0% 0.133 260); /* #002C75 */
+  --color-navy-2: oklch(39.5% 0.152 261); /* #0B3F96 */
+  --color-blue: oklch(46.8% 0.187 260); /* #0351C0 */
+  --color-blue-soft: oklch(94.5% 0.019 263); /* #E6EDFA */
+  --color-gold: oklch(79.6% 0.165 79); /* #F5AD01 */
+  --color-paper: oklch(97.0% 0.006 265); /* #F3F5F9 */
+  --color-card: oklch(100.0% 0.000 90); /* #FFFFFF */
+  --color-line: oklch(89.0% 0.016 263); /* #D5DBE6 */
+  --color-field: oklch(61.8% 0.035 262); /* #7A869B */
+  --color-track: oklch(92.4% 0.015 264); /* #E1E6F0 */
+  --color-ink: oklch(20.8% 0.040 266); /* #0F172A */
+  --color-muted: oklch(44.6% 0.037 257); /* #475569 */
+  --color-on-navy: oklch(100.0% 0.000 90); /* #FFFFFF */
+  --color-on-navy-idle: oklch(82.9% 0.046 266); /* #B9C7E6 */
+  --color-ok: oklch(46.4% 0.142 141); /* #1F6B10 */
+  --color-ok-bg: oklch(95.0% 0.026 138); /* #E6F3E2 */
+  --color-wait: oklch(47.9% 0.112 60); /* #8A4B00 */
+  --color-wait-bg: oklch(95.8% 0.038 85); /* #FDF0D5 */
+  --color-bad: oklch(50.0% 0.182 30); /* #B42318 */
+  --color-bad-bg: oklch(94.7% 0.023 24); /* #FDE8E6 */
+
+  --font-body: 'Inter Variable', Inter, system-ui, sans-serif;
+
+  --space-3xs: .25rem; --space-2xs: .5rem; --space-xs: .75rem; --space-sm: 1rem;
+  --space-md: 1.5rem; --space-lg: 2rem; --space-xl: 3rem;
+
+  --text-xs: .75rem; --text-sm: .875rem; --text-md: 1rem; --text-lg: 1.25rem;
+  --text-xl: 1.75rem; --text-stat: 2.25rem;
+
+  --radius-s: 6px; --radius-m: 12px; --radius-l: 18px; --radius-hdr: 28px; --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --dur-s: 160ms;
+  --elev-fab: 0 6px 16px oklch(20% .08 265 / .35);
+}

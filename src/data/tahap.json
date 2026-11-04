@@ -1,0 +1,90 @@
+{
+ "GSW-01": {
+  "tahap": "Asesmen",
+  "progres": 10
+ },
+ "GSW-02": {
+  "tahap": "Asesmen",
+  "progres": 12
+ },
+ "GSW-03": {
+  "tahap": "Master Plan",
+  "progres": 18
+ },
+ "GSW-04": {
+  "tahap": "Master Plan",
+  "progres": 15
+ },
+ "GSW-05": {
+  "tahap": "Asesmen",
+  "progres": 8
+ },
+ "GSW-06": {
+  "tahap": "Asesmen",
+  "progres": 6
+ },
+ "GSW-07": {
+  "tahap": "Asesmen",
+  "progres": 5
+ },
+ "GSW-08": {
+  "tahap": "Asesmen",
+  "progres": 5
+ },
+ "GSW-09": {
+  "tahap": "Asesmen",
+  "progres": 4
+ },
+ "GSW-10": {
+  "tahap": "Master Plan",
+  "progres": 10
+ },
+ "GSW-11": {
+  "tahap": "Master Plan",
+  "progres": 12
+ },
+ "GSW-12": {
+  "tahap": "Pra-Konstruksi",
+  "progres": 22
+ },
+ "GSW-13": {
+  "tahap": "Pra-Konstruksi",
+  "progres": 25
+ },
+ "GSW-14": {
+  "tahap": "Asesmen",
+  "progres": 3
+ },
+ "GSW-15": {
+  "tahap": "Asesmen",
+  "progres": 3
+ },
+ "NCICD-A-01": {
+  "tahap": "Konstruksi",
+  "progres": 55
+ },
+ "NCICD-A-02": {
+  "tahap": "Konstruksi",
+  "progres": 48
+ },
+ "NCICD-A-03": {
+  "tahap": "Konstruksi",
+  "progres": 62
+ },
+ "NCICD-B-01": {
+  "tahap": "Asesmen",
+  "progres": 5
+ },
+ "TOL-SMD-01": {
+  "tahap": "Pra-Konstruksi",
+  "progres": 30
+ },
+ "TOL-SMD-02": {
+  "tahap": "Pra-Konstruksi",
+  "progres": 20
+ },
+ "TOL-SMD-03": {
+  "tahap": "Asesmen",
+  "progres": 10
+ }
+}
