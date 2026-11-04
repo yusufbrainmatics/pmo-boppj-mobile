@@ -6,7 +6,6 @@
   // back: fallback path for the compact (detail) header. tab: current bottom-nav item.
   // Pages with a surface as first child overlap the large header via `tarik`.
   let { title, sub, back: kembali, tab, tarik = !!tab && !kembali, penuh = false, children, aksi } = $props()
-  const inisial = $derived((app.user?.nama ?? '').split(' ').map((k) => k[0]).slice(0, 2).join(''))
 </script>
 
 <header class="hdr {kembali ? 'kecil' : 'besar'}">
@@ -18,12 +17,12 @@
       <button class="bulat" onclick={() => back(kembali)} aria-label="Kembali"><Icon name="kembali" /></button>
       <h1 tabindex="-1">{title}</h1>
     {:else}
-      <span class="merek"><img src={import.meta.env.BASE_URL + 'icon.svg'} width="32" height="32" alt="" />PMO BOPPJ</span>
+      <span class="merek"><img src={import.meta.env.BASE_URL + 'logo-boppj.png'} width="32" height="32" alt="" />PMO BOPPJ</span>
     {/if}
     <div class="aksi">
       {#if !isOnline()}<span class="pil-hdr" role="status"><Icon name="offline" size={18} />Offline</span>{/if}
       {#if aksi}{@render aksi()}{/if}
-      {#if !kembali && tab !== 'lainnya'}<a class="avatar" href="#/lainnya" aria-label="Profil {app.user?.nama}">{inisial}</a>{/if}
+      {#if !kembali && tab !== 'lainnya'}<a class="avatar" href="#/lainnya" aria-label="Profil {app.user?.nama}"><img src={import.meta.env.BASE_URL + 'logo-braindevs.png'} alt="" /></a>{/if}
     </div>
   </div>
   {#if !kembali}

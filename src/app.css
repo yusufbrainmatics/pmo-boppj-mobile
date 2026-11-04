@@ -59,6 +59,7 @@ button:disabled { cursor: not-allowed; }
   font-size: var(--text-sm);
 }
 .bulat:hover, .avatar:hover { background: var(--color-blue); }
+.avatar img { width: calc(2.75rem - 6px); height: calc(2.75rem - 6px); object-fit: contain; }
 .pil-hdr {
   display: inline-flex; align-items: center; gap: var(--space-3xs); min-height: 2.75rem; padding: 0 var(--space-xs);
   border-radius: var(--radius-pill); background: var(--color-navy-2); color: var(--color-on-navy);
@@ -212,7 +213,7 @@ input:disabled, select:disabled { background: var(--color-track); color: var(--c
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 dl.rinci { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2xs) var(--space-sm); margin: 0; font-size: var(--text-md); }
 dl.rinci dt { color: var(--color-muted); } dl.rinci dd { margin: 0; font-weight: 600; text-align: right; }
-.avatar-besar { width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--color-navy); color: var(--color-on-navy); display: grid; place-items: center; font-weight: 800; font-size: var(--text-lg); flex: none; }
+.logo-pt { height: 1.625rem; width: auto; flex: none; align-self: center; padding: 2px var(--space-3xs); border: 1px solid var(--color-line); border-radius: var(--radius-s); background: var(--color-card); }
 
 /* Chart (tokens, not inline colour) */
 .kurva .garis-rencana { stroke: var(--color-muted); }

@@ -2,13 +2,11 @@
   import Page from '../components/Page.svelte'
   import Icon from '../components/Icon.svelte'
   import { app, logout } from '../lib/store.svelte.js'
-
-  const inisial = $derived(app.user.nama.split(' ').map((k) => k[0]).slice(0, 2).join(''))
 </script>
 
 <Page title="Lainnya" sub="Profil dan pintasan" tab="lainnya">
   <section class="card baris" style="gap:var(--space-sm)" aria-label="Profil">
-    <span class="avatar-besar" aria-hidden="true">{inisial}</span>
+    <img class="logo-pt" src={import.meta.env.BASE_URL + 'logo-braindevs.png'} alt="" aria-hidden="true" />
     <div style="min-width:0">
       <p class="tebal">{app.user.nama}</p>
       <p class="kecil muted">{app.user.peran} · {app.user.perusahaan}</p>

@@ -18,7 +18,7 @@ pnpm install
 pnpm dev          # http://localhost:5173/m/
 ```
 
-Login demo: `kontraktor@perusahaan.co.id` / `demo1234`. Seed sudah berisi satu laporan ditolak (`TOL-SMD-01`) untuk mendemokan alur revisi. Untuk uji offline: DevTools → Network → Offline (antrian laporan akan antre dan terkirim saat online kembali).
+Login demo: `karno@braindevs.com` / `demo1234`. Seed sudah berisi satu laporan ditolak (`TOL-SMD-01`) untuk mendemokan alur revisi. Untuk uji offline: DevTools → Network → Offline (antrian laporan akan antre dan terkirim saat online kembali).
 
 ## Build untuk lingkungan produksi (domain bersama, path `/m/`)
 
@@ -34,18 +34,22 @@ pnpm build && pnpm preview
 - Repository: <https://github.com/yusufbrainmatics/pmo-boppj-mobile>
 - Aplikasi: <https://yusufbrainmatics.github.io/pmo-boppj-mobile/>
 
-Mengikuti tutorial [stroblp/svelte-gh-pages](https://github.com/stroblp/svelte-gh-pages) yang diadaptasi untuk Vite (output `dist/`, bukan `public/`):
+### CI/CD (utama)
 
-1. `gh-pages` terpasang sebagai devDependency dan branch `gh-pages` menjadi sumber GitHub Pages (diaktifkan sekali via API).
-2. Setiap rilis baru cukup:
+Workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) berjalan otomatis setiap push ke `main`: `pnpm install` → `pnpm build:pages` (`BASE=/pmo-boppj-mobile/`) → deploy hasil `dist/` ke GitHub Pages (build type *workflow*, bukan branch). Trigger manual: tab **Actions** → *Deploy ke GitHub Pages* → **Run workflow**. Verifikasi hasil di URL aplikasi (propagasi biasanya < 2 menit).
+
+Alur awal mengikuti tutorial [stroblp/svelte-gh-pages](https://github.com/stroblp/svelte-gh-pages) yang diadaptasi untuk Vite (output `dist/`, bukan `public/`).
+
+### Rilis manual (fallback)
+
+Jika CI tidak bisa dipakai, kembalikan Pages ke mode branch lalu rilis manual:
 
 ```bash
+gh api -X PATCH repos/yusufbrainmatics/pmo-boppj-mobile/pages -f build_type=legacy
 pnpm deploy:pages   # = build:pages (BASE=/pmo-boppj-mobile/) lalu push dist/ ke branch gh-pages
 ```
 
-   > Catatan: script sengaja dinamai `deploy:pages`, bukan `deploy` — `pnpm deploy` adalah perintah bawaan pnpm (workspace deploy) dan akan menimpa script dengan nama sama.
-
-3. Verifikasi hasil deploy di URL aplikasi di atas (propagasi GitHub Pages biasanya < 2 menit).
+> Catatan: script sengaja dinamai `deploy:pages`, bukan `deploy` — `pnpm deploy` adalah perintah bawaan pnpm (workspace deploy) dan akan menimpa script dengan nama sama.
 
 ## Regenerasi data proyek
 

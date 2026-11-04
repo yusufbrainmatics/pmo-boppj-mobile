@@ -1,9 +1,9 @@
 {
-  "akun": { "email": "kontraktor@perusahaan.co.id", "sandi": "demo1234" },
+  "akun": { "email": "karno@braindevs.com", "sandi": "demo1234" },
   "pengguna": {
-    "nama": "Raka Pradipta",
+    "nama": "Karno Nur Cahyo",
     "peran": "Site Manager",
-    "perusahaan": "PT Mitra Pesisir Nusantara",
+    "perusahaan": "PT IlmuKomputer Braindevs Sistema",
     "telepon": "0812-0000-0000"
   },
   "paket": [

@@ -20,7 +20,7 @@
   <svg class="ombak" viewBox="0 0 240 64" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" aria-hidden="true">
     <path d="M0 18c40-26 80-26 120 0s80 26 120 0M0 44c40-26 80-26 120 0s80 26 120 0" />
   </svg>
-  <div class="hdr-bar"><span class="merek"><img src={import.meta.env.BASE_URL + 'icon.svg'} width="32" height="32" alt="" />PMO BOPPJ</span></div>
+  <div class="hdr-bar"><span class="merek"><img src={import.meta.env.BASE_URL + 'logo-boppj.png'} width="32" height="32" alt="" />PMO BOPPJ</span></div>
   <h1 tabindex="-1">Masuk ke PMO Kontraktor</h1>
   <p class="hdr-sub">Gunakan akun yang diberikan BOPPJ untuk perusahaan Anda.</p>
 </header>
