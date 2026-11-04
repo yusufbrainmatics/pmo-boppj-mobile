@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/pmo-boppj-mobile/sw.js', { scope: '/pmo-boppj-mobile/' })})}
