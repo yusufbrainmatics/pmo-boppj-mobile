@@ -6,23 +6,30 @@
     <title>Portal PMO BOPPJ</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="admin-login.css" />
+    <link rel="stylesheet" href="admin-brand.css" />
   </head>
   <body>
     <main class="admin-login" id="admin-login">
       <section class="admin-login__card" aria-labelledby="admin-login-title">
-        <div class="admin-login__brand" aria-hidden="true">PMO</div>
-        <p class="admin-login__eyebrow">BOPPJ</p>
-        <h1 id="admin-login-title">Portal Administrator</h1>
-        <p class="admin-login__copy">Masuk untuk memantau proyek dan memproses laporan kontraktor.</p>
-        <form id="admin-login-form">
-          <label for="admin-email">Email</label>
-          <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="admin@boppj.go.id" required />
-          <label for="admin-password">Kata sandi</label>
-          <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi" required />
-          <p class="admin-login__error" id="admin-login-error" role="alert" hidden></p>
-          <button type="submit">Masuk ke Portal</button>
-        </form>
-        <p class="admin-login__hint">Demo: <strong>admin@boppj.go.id</strong> / <strong>demo1234</strong></p>
+        <header class="admin-login__header">
+          <div class="admin-login__identity">
+            <img class="admin-login__brand" src="/logo-boppj.png" alt="Logo BOPPJ" />
+            <strong>PMO BOPPJ</strong>
+          </div>
+          <h1 id="admin-login-title">Masuk ke Portal Admin</h1>
+          <p>Gunakan akun Administrator BOPPJ untuk memantau proyek dan memproses laporan kontraktor.</p>
+        </header>
+        <div class="admin-login__form-surface">
+          <form id="admin-login-form">
+            <label for="admin-email">Email</label>
+            <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="admin@boppj.go.id" required />
+            <label for="admin-password">Kata sandi</label>
+            <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi" required />
+            <p class="admin-login__error" id="admin-login-error" role="alert" hidden></p>
+            <button type="submit">Masuk ke Portal</button>
+          </form>
+          <p class="admin-login__hint">Demo: <strong>admin@boppj.go.id</strong> / <strong>demo1234</strong></p>
+        </div>
       </section>
     </main>
     <div class="portal-shell" id="admin-portal" hidden>
