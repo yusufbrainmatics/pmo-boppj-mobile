@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="admin-login.css" />
     <link rel="stylesheet" href="admin-brand.css" />
+    <link rel="stylesheet" href="admin-icons.css" />
+    <link rel="stylesheet" href="admin-users.css" />
   </head>
   <body>
     <main class="admin-login" id="admin-login">
@@ -37,8 +39,8 @@
       <aside class="sidebar">
         <header class="brand">Sistem Portal PMO BOPPJ</header>
         <div class="profile">
-          <span class="profile-icon">♙</span>
-          <div><strong>Administrator</strong><span>Administrator</span></div>
+          <img class="admin-login__brand" src="/logo-boppj.png" alt="Logo Badan Otorita Pengelola Pantai Utara Jawa" />
+          <div><strong>Administrator</strong></div>
           <button type="button" id="admin-logout" aria-label="Keluar dari portal">↪</button>
         </div>
         <nav class="menu">
@@ -185,7 +187,9 @@
       </main>
     </div>
     <script type="module" src="admin-auth.js"></script>
+    <script type="module" src="admin-icons.js"></script>
     <script type="module" src="app.js"></script>
+    <script type="module" src="admin-users.js"></script>
     <script type="module" src="admin-map.js"></script>
   </body>
 </html>
