@@ -2,14 +2,182 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#002C75" />
-    <link rel="icon" href="icon-192.png" type="image/png" />
-    <link rel="apple-touch-icon" href="icon-192.png" />
-    <title>PMO Kontraktor · BOPPJ</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Portal PMO BOPPJ</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin-login.css" />
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <main class="admin-login" id="admin-login">
+      <section class="admin-login__card" aria-labelledby="admin-login-title">
+        <div class="admin-login__brand" aria-hidden="true">PMO</div>
+        <p class="admin-login__eyebrow">BOPPJ</p>
+        <h1 id="admin-login-title">Portal Administrator</h1>
+        <p class="admin-login__copy">Masuk untuk memantau proyek dan memproses laporan kontraktor.</p>
+        <form id="admin-login-form">
+          <label for="admin-email">Email</label>
+          <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="admin@boppj.go.id" required />
+          <label for="admin-password">Kata sandi</label>
+          <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi" required />
+          <p class="admin-login__error" id="admin-login-error" role="alert" hidden></p>
+          <button type="submit">Masuk ke Portal</button>
+        </form>
+        <p class="admin-login__hint">Demo: <strong>admin@boppj.go.id</strong> / <strong>demo1234</strong></p>
+      </section>
+    </main>
+    <div class="portal-shell" id="admin-portal" hidden>
+      <aside class="sidebar">
+        <header class="brand">Sistem Portal PMO BOPPJ</header>
+        <div class="profile">
+          <span class="profile-icon">♙</span>
+          <div><strong>Administrator</strong><span>Administrator</span></div>
+          <button type="button" id="admin-logout" aria-label="Keluar dari portal">↪</button>
+        </div>
+        <nav class="menu">
+          <button class="menu-item active" data-page="dashboard">
+            ▦ <span>Dashboard Monitoring</span></button
+          ><button class="menu-item" data-page="projects">
+            ▤ <span>Data Proyek</span></button
+          ><button class="menu-item" data-page="regions">
+            ⌖ <span>Data Wilayah</span></button
+          ><button class="menu-item" data-page="management">
+            ⚒ <span>Manajemen Proyek</span></button
+          ><button class="menu-item" data-page="users">
+            ♧ <span>Pengelolaan Akun</span></button
+          ><button class="menu-item" data-page="daily">
+            ▧ <span>Performa Harian</span></button
+          ><button class="menu-item" data-page="export">
+            ⇩ <span>Export Laporan</span></button
+          ><button class="menu-item" data-page="map">
+            ♧ <span>Peta Sebaran Proyek</span></button
+          ><button class="menu-item" data-page="approval">
+            ☷ <span>Penyetujuan Laporan</span><i>8</i></button
+          ><button class="menu-item" data-page="missing">
+            ▱ <span>Proyek Belum Lapor</span></button
+          ><button class="menu-item" data-page="knowledge">
+            ▤ <span>Knowledge Management</span>
+          </button>
+        </nav>
+      </aside>
+      <main class="workspace">
+        <section class="page active dashboard-page" id="dashboard">
+          <h1>Monitoring Proyek BOPPJ</h1>
+          <p class="subtitle">
+            Draf dengan data ilustratif. Nama, koordinat, tahap, dan progres
+            belum berasal dari data resmi BOPPJ.
+          </p>
+          <div class="metrics">
+            <article>Total proyek<b>22</b></article>
+            <article>Rata-rata progres (%)<b>17.6</b></article>
+            <article>Sedang konstruksi<b>3</b></article>
+            <article>Pra-konstruksi<b>4</b></article>
+          </div>
+          <section class="dash-card">
+            <h2>Progres per proyek (%)</h2>
+            <div class="legend">
+              <span class="blue-dot"></span>Tanggul Laut Pantura (GSW)
+              <span class="green-dot"></span>NCICD
+              <span class="orange-dot"></span>Integrasi Tol Semarang-Demak
+            </div>
+            <div class="bar-chart" id="project-bars"></div>
+          </section>
+          <section class="dash-card">
+            <h2>Jumlah proyek per tahap</h2>
+            <div class="stage-chart">
+              <div>
+                <b>11</b><i style="height: 152px"></i><span>Asesmen</span>
+              </div>
+              <div>
+                <b>4</b><i style="height: 55px"></i><span>Master Plan</span>
+              </div>
+              <div>
+                <b>4</b><i style="height: 55px"></i><span>Pra-Konstruksi</span>
+              </div>
+              <div>
+                <b>3</b><i style="height: 42px"></i><span>Konstruksi</span>
+              </div>
+              <div><b>0</b><i style="height: 1px"></i><span>Selesai</span></div>
+            </div>
+          </section>
+          <section class="dash-card">
+            <h2>Rata-rata progres per kelompok</h2>
+            <div class="group-chart">
+              <div>
+                <label>Tanggul Laut Pantura (GSW)</label
+                ><i class="g-blue" style="width: 11%"></i><b>10.5%</b>
+              </div>
+              <div>
+                <label>NCICD</label><i class="g-green" style="width: 42.5%"></i
+                ><b>42.5%</b>
+              </div>
+              <div>
+                <label>Integrasi Tol Semarang-Demak</label
+                ><i class="g-orange" style="width: 20%"></i><b>20%</b>
+              </div>
+            </div>
+          </section>
+          <section class="dash-card">
+            <h2>Daftar proyek</h2>
+            <div class="project-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Kode</th>
+                    <th>Nama</th>
+                    <th>Kelompok</th>
+                    <th>Provinsi</th>
+                    <th>Tahap</th>
+                    <th>Progres (%)</th>
+                  </tr>
+                </thead>
+                <tbody id="projects-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+        <section class="page" id="map">
+          <h1>Peta Sebaran Proyek</h1>
+          <div class="map-canvas">
+            <img src="assets/indonesia-basemap.png" alt="Peta Indonesia" />
+            <div class="map-controls"><button>+</button><button>−</button></div>
+          </div>
+        </section>
+        <section class="page simple-page" id="projects">
+          <h1>Data Proyek</h1>
+          <p>Kelola master data proyek dan paket pekerjaan.</p>
+        </section>
+        <section class="page simple-page" id="regions">
+          <h1>Data Wilayah</h1>
+        </section>
+        <section class="page simple-page" id="management">
+          <h1>Manajemen Proyek</h1>
+          <p>Berisi Proyek, Tahap, dan Penugasan.</p>
+        </section>
+        <section class="page simple-page" id="users">
+          <h1>Pengelolaan Akun</h1>
+        </section>
+        <section class="page simple-page" id="daily">
+          <h1>Performa Harian</h1>
+        </section>
+        <section class="page simple-page" id="export">
+          <h1>Export Laporan</h1>
+        </section>
+        <section class="page simple-page" id="approval">
+          <h1>Penyetujuan Laporan</h1>
+        </section>
+        <section class="page simple-page" id="missing">
+          <h1>Proyek Belum Lapor</h1>
+        </section>
+        <section class="page simple-page" id="knowledge">
+          <h1>Knowledge Management</h1>
+          <p>
+            Basis Pengetahuan, Lesson Learned Proyek, dan Tanya Jawab (FAQ).
+          </p>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="admin-auth.js"></script>
+    <script type="module" src="app.js"></script>
+    <script type="module" src="admin-map.js"></script>
   </body>
 </html>

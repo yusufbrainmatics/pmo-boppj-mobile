@@ -18,7 +18,12 @@ pnpm install
 pnpm dev          # http://localhost:5173/m/
 ```
 
-Login demo: `karno@braindevs.com` / `demo1234`. Seed sudah berisi satu laporan ditolak (`TOL-SMD-01`) untuk mendemokan alur revisi. Untuk uji offline: DevTools → Network → Offline (antrian laporan akan antre dan terkirim saat online kembali).
+Halaman yang tersedia di lingkungan lokal:
+
+- `http://localhost:5173/` — Portal Admin. Login demo: `admin@boppj.go.id` / `demo1234`.
+- `http://localhost:5173/m/` — PWA Kontraktor. Login demo: `karno@braindevs.com` / `demo1234`.
+
+Seed sudah berisi satu laporan ditolak (`TOL-SMD-01`) untuk mendemokan alur revisi. Untuk uji offline: DevTools → Network → Offline (antrian laporan akan antre dan terkirim saat online kembali).
 
 ## Build untuk lingkungan produksi (domain bersama, path `/m/`)
 
@@ -27,7 +32,7 @@ pnpm build && pnpm preview
 ```
 
 - Output build: `dist/`. Service worker (offline queue + cache) **hanya aktif di hasil build**, bukan di dev server.
-- Base path default `/m/` mengikuti konvensi deployment di domain bersama (web admin menempati `/`). Variabel lingkungan `BASE` bisa meng-override base path untuk mount lain, mis. GitHub Pages.
+- Build menghasilkan dua entry: Portal Admin di `/` dan PWA Kontraktor di `/m/`. Variabel lingkungan `BASE` bisa meng-override root deployment untuk preview statis, mis. GitHub Pages.
 
 ## Deploy ke GitHub Pages
 
