@@ -1,0 +1,98 @@
+.admin-login {
+  background:
+    linear-gradient(to bottom, rgb(0 44 116 / 90%) 0%, rgb(0 44 116 / 80%) 46%, rgb(17 111 83 / 82%) 100%),
+    url('/bg-boppj.png') center / cover no-repeat;
+}
+
+.admin-login__card {
+  width: min(100%, 520px);
+  padding: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #f3f5f9;
+}
+
+.admin-login__header {
+  position: relative;
+  padding: 28px 32px 70px;
+  overflow: hidden;
+  background: #002c74;
+  color: #fff;
+}
+
+.admin-login__header::after {
+  position: absolute;
+  right: -50px;
+  bottom: -82px;
+  width: 280px;
+  height: 150px;
+  border: 10px solid rgb(82 126 205 / 42%);
+  border-radius: 50%;
+  content: '';
+}
+
+.admin-login__identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.admin-login__brand {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  object-fit: contain;
+}
+
+.admin-login__identity strong {
+  font-size: 19px;
+  letter-spacing: -0.01em;
+}
+
+.admin-login__header h1 {
+  position: relative;
+  z-index: 1;
+  margin: 38px 0 10px;
+  color: #fff;
+  font-size: clamp(28px, 4vw, 38px);
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.admin-login__header p {
+  position: relative;
+  z-index: 1;
+  max-width: 470px;
+  margin: 0;
+  color: #c8d8fa;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.admin-login__form-surface {
+  position: relative;
+  z-index: 2;
+  margin: -34px 20px 20px;
+  padding: 24px 28px;
+  border: 1px solid #d5dce9;
+  border-radius: 22px;
+  background: #fff;
+}
+
+.admin-login__form-surface form button {
+  background: #0b4ebd;
+}
+
+.admin-login__form-surface form button:hover {
+  background: #002c74;
+}
+
+@media (max-width: 560px) {
+  .admin-login__card { border-radius: 22px; }
+  .admin-login__header { padding: 24px 24px 66px; }
+  .admin-login__header h1 { margin-top: 30px; }
+  .admin-login__form-surface { margin: -34px 14px 14px; padding: 24px 20px; }
+}
