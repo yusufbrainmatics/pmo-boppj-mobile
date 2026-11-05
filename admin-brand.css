@@ -34,17 +34,28 @@
 .admin-login__identity {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 14px;
   position: relative;
   z-index: 1;
 }
 
 .admin-login__brand {
   display: block;
-  width: 48px;
-  height: 48px;
+  width: 76px;
+  height: 76px;
   margin: 0;
   object-fit: contain;
+}
+
+.admin-login__agency {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-align: left;
+  text-transform: uppercase;
 }
 
 .admin-login__identity strong {
@@ -94,5 +105,7 @@
   .admin-login__card { border-radius: 22px; }
   .admin-login__header { padding: 24px 24px 66px; }
   .admin-login__header h1 { margin-top: 30px; }
+  .admin-login__brand { width: 62px; height: 62px; }
+  .admin-login__agency { font-size: 15px; }
   .admin-login__form-surface { margin: -34px 14px 14px; padding: 24px 20px; }
 }
