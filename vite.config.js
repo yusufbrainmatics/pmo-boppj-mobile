@@ -1,12 +1,22 @@
 import { defineConfig } from 'vite'
+import { resolve } from 'node:path'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// /m on the shared domain (web admin owns /); BASE env overrides the mount, e.g. GitHub Pages /pmo-boppj-mobile/.
-const base = process.env.BASE || '/m/'
+// The admin mockup owns `/`; the Svelte contractor PWA is mounted at `/m/`.
+const base = process.env.BASE || '/'
+const mobileBase = base === '/' ? '/m/' : `${base.replace(/\/$/, '')}/m/`
 
 export default defineConfig({
   base,
+  build: {
+    rollupOptions: {
+      input: {
+        admin: resolve(import.meta.dirname, 'index.html'),
+        mobile: resolve(import.meta.dirname, 'm/index.html'),
+      },
+    },
+  },
   plugins: [
     svelte(),
     VitePWA({
@@ -16,8 +26,8 @@ export default defineConfig({
         short_name: 'PMO BOPPJ',
         description: 'Pelaporan progres harian proyek Pantura Jawa untuk kontraktor.',
         lang: 'id',
-        start_url: base,
-        scope: base,
+        start_url: mobileBase,
+        scope: mobileBase,
         display: 'standalone',
         orientation: 'portrait',
         theme_color: '#002C75',
