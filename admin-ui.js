@@ -85,6 +85,12 @@ export function downloadFile(name, contents, type = 'text/plain;charset=utf-8') 
 }
 
 const TAHAP_CLASS = { 'asesmen': 'asesmen', 'master plan': 'master-plan', 'pra-konstruksi': 'pra-konstruksi', 'pra konstruksi': 'pra-konstruksi', 'konstruksi': 'konstruksi', 'selesai': 'selesai' }
+export function kelompokWarna(nama) {
+  const teks = String(nama ?? '')
+  if (teks.includes('NCICD')) return 'g-green'
+  if (teks.includes('Tol')) return 'g-orange'
+  return 'g-blue'
+}
 export function tahapClass(name) { return TAHAP_CLASS[String(name ?? '').toLowerCase().trim()] || 'asesmen' }
 export function notify(message) {
   if (typeof document === 'undefined') return

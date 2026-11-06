@@ -1,3 +1,4 @@
+import { kelompokWarna } from '../admin-ui.js'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
@@ -112,4 +113,10 @@ test('isValidDemoAccount hanya menerima akun demo yang ditampilkan', () => {
   assert.equal(isValidDemoAccount('admin@boppj.go.id', 'wrong'), false)
   assert.equal(isValidDemoAccount('other@example.com', 'demo1234'), false)
   assert.equal(isValidDemoAccount(null, undefined), false)
+})
+test('kelompokWarna memetakan kelompok ke warna chart yang sama', () => {
+  assert.equal(kelompokWarna('Tanggul Laut Pantura (GSW)'), 'g-blue')
+  assert.equal(kelompokWarna('NCICD'), 'g-green')
+  assert.equal(kelompokWarna('Integrasi Tol Semarang-Demak'), 'g-orange')
+  assert.equal(kelompokWarna(''), 'g-blue')
 })

@@ -4,7 +4,7 @@ import { initKnowledge } from './admin-knowledge.js'
 import { initOperations } from './admin-operations.js'
 import { initRegions } from './admin-regions.js'
 import { destroyMaps, renderProjectMap } from './admin-map.js'
-import { tahapClass,
+import { kelompokWarna, tahapClass,
   escapeHtml as esc, formatDate, formatNumber as number, notify, openDialog,
   parseBackofficeHash, backofficeHash, summarizeProjects, createCsv, downloadFile,
 } from './admin-ui.js'
@@ -73,7 +73,6 @@ function dashboard(root) {
   const stages = canonical.map((name) => summary.stages.find((stage) => stage.name === name) ?? { name, count: 0 })
   const stageTotal = Math.max(1, ...stages.map((stage) => stage.count))
   const bars = [...projects].sort((a, b) => (b.progres ?? -1) - (a.progres ?? -1) || a.kode.localeCompare(b.kode))
-  const kelompokWarna = (nama) => nama.includes('NCICD') ? 'g-green' : nama.includes('Tol') ? 'g-orange' : 'g-blue'
   const tahap = summary.stages.find((stage) => stage.name === 'Konstruksi')?.count ?? 0
   const pra = summary.stages.find((stage) => stage.name === 'Pra-Konstruksi')?.count ?? 0
   root.innerHTML = `<header class="page-heading"><div><h1 tabindex="-1">Monitoring Proyek BOPPJ</h1><p>Proyek pada koridor Pantai Utara Jawa · ${esc(formatDate(DEMO_TODAY))} WIB.</p></div></header>

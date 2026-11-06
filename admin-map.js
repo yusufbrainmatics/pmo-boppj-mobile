@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { backofficeHash, escapeHtml, formatNumber } from './admin-ui.js'
+import { backofficeHash, escapeHtml, formatNumber, kelompokWarna } from './admin-ui.js'
 
 const maps = new Map()
 
@@ -50,10 +50,19 @@ export function renderProjectMap(container, projects, { compact = false } = {}) 
   tiles.on('tileerror', () => {
     message.textContent = 'Peta dasar tidak tersedia. Gunakan tabel lokasi; titik tetap ilustratif.'
   })
+  const legend = L.control({ position: 'bottomright' })
+  const kelompok = [...new Set(locations.map((project) => project.kelompok))]
+  legend.onAdd = () => {
+    const box = L.DomUtil.create('div', 'map-legend')
+    box.setAttribute('role', 'note')
+    box.innerHTML = `<b>Kelompok proyek</b>${kelompok.map((nama) => `<span><i class="${kelompokWarna(nama)}"></i>${escapeHtml(nama)}</span>`).join('')}`
+    return box
+  }
+  legend.addTo(map)
   const bounds = []
   for (const project of locations) {
     const icon = L.divIcon({
-      className: 'project-map-marker',
+      className: `project-map-marker ${kelompokWarna(project.kelompok)}`,
       html: '<span aria-hidden="true">●</span>',
       iconSize: [44, 44],
       iconAnchor: [22, 22],
@@ -63,7 +72,7 @@ export function renderProjectMap(container, projects, { compact = false } = {}) 
     L.marker([project.lat, project.lng], { icon, keyboard: true, title: `${project.kode} · ${project.nama}`, alt: `${project.kode} · ${project.nama}` })
       .addTo(map)
       .bindTooltip(escapeHtml(project.kode), { direction: 'top', offset: [0, -14] })
-      .bindPopup(`<div class="map-popup"><strong>${escapeHtml(project.nama)}</strong><p>${escapeHtml(project.kode)} · ${escapeHtml(project.kabupaten)}, ${escapeHtml(project.provinsi)}</p><p>${escapeHtml(project.tahap)} · Progres seed ilustratif: ${escapeHtml(formatNumber(project.progres))}%</p><a href="${escapeHtml(detail)}">Detail proyek</a><a href="${escapeHtml(reports)}">Laporan proyek</a></div>`)
+      .bindPopup(`<div class="map-popup"><strong>${escapeHtml(project.nama)}</strong><p>${escapeHtml(project.kode)} · ${escapeHtml(project.kabupaten)}, ${escapeHtml(project.provinsi)}</p><p>${escapeHtml(project.tahap)} · Progres: ${escapeHtml(formatNumber(project.progres))}%</p><a href="${escapeHtml(detail)}">Detail proyek</a><a href="${escapeHtml(reports)}">Laporan proyek</a></div>`)
     bounds.push([project.lat, project.lng])
   }
   map.fitBounds(bounds, { padding: [32, 32], maxZoom: compact ? 8 : 11 })

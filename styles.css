@@ -183,7 +183,16 @@ td > .progress-track { min-width: 6rem; margin-top: var(--space-2xs); margin-bot
 .map-popup a { display: flex; align-items: center; min-height: 44px; }
 .map-status { max-width: min(18rem, 65vw); padding: var(--space-2xs); border: 1px solid var(--color-field); border-radius: var(--radius-s); background: var(--color-card); color: var(--color-muted); font-size: var(--text-xs); }
 .project-map-marker { display: grid; place-items: center; background: transparent; }
-.project-map-marker > span { display: grid; place-items: center; width: var(--space-md); height: var(--space-md); border-radius: var(--radius-pill); border: 2px solid var(--color-on-navy); background: var(--color-blue); color: var(--color-on-navy); font-size: var(--text-xs); }
+.project-map-marker > span { display: grid; place-items: center; width: var(--space-md); height: var(--space-md); border-radius: var(--radius-pill); border: 2px solid var(--color-card); background: var(--color-blue); color: var(--color-on-navy); font-size: var(--text-xs); box-shadow: 0 0 0 2px oklch(32.0% 0.133 260 / 0.35); }
+.project-map-marker.g-green > span { background: var(--color-ok); }
+.project-map-marker.g-orange > span { background: var(--color-orange); }
+.map-legend { display: grid; gap: var(--space-3xs); max-width: min(20rem, 70vw); padding: var(--space-2xs) var(--space-xs); border: 1px solid var(--color-field); border-radius: var(--radius-s); background: var(--color-card); color: var(--color-muted); font-size: var(--text-xs); }
+.map-legend b { color: var(--color-ink); }
+.map-legend span { display: flex; align-items: center; gap: var(--space-3xs); }
+.map-legend i { display: inline-block; width: var(--space-2xs); height: var(--space-2xs); border-radius: var(--radius-pill); }
+.map-legend i.g-blue { background: var(--color-blue); }
+.map-legend i.g-green { background: var(--color-ok); }
+.map-legend i.g-orange { background: var(--color-orange); }
 .leaflet-container .leaflet-tooltip { color: var(--color-ink); background: var(--color-card); border-color: var(--color-field); font-family: var(--font-body); font-size: var(--text-xs); box-shadow: none; }
 
 /* Keep the original account module while aligning its presentation with shared tokens. */
