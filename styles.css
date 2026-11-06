@@ -96,6 +96,7 @@ input[readonly], :is(input, select, textarea):disabled { background: var(--color
 .table-scroll { min-width: 0; width: 100%; max-width: 100%; overflow: auto; overscroll-behavior-inline: contain; border: 1px solid var(--color-line); border-radius: var(--radius-s); background: var(--color-card); }
 table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
 .shell-table { min-width: 54rem; }
+.table-scroll :is(.project-name, .company-name) { min-width: 16rem; overflow-wrap: normal; }
 caption { padding: var(--space-xs); color: var(--color-muted); background: var(--color-paper); font-size: var(--text-sm); text-align: left; }
 th, td { padding: var(--space-xs); border-bottom: 1px solid var(--color-line); text-align: left; vertical-align: top; overflow-wrap: anywhere; white-space: normal; }
 thead th { color: var(--color-ink); background: var(--color-paper); font-weight: 700; }
@@ -197,6 +198,8 @@ td > .progress-track { min-width: 6rem; margin-top: var(--space-2xs); margin-bot
 
 /* Keep the original account module while aligning its presentation with shared tokens. */
 #users { font-family: var(--font-body); }
+/* Contain absolutely positioned screen-reader labels within the table scroller. */
+#users :is(.account-table-wrap, .permission-table-wrap) { position: relative; overscroll-behavior-inline: contain; }
 #users :is(button, input, select, textarea) { font-family: var(--font-body); min-height: 44px; font-size: var(--text-sm); border-radius: var(--radius-m); }
 #users :is(button, input, select):not(.account-close, .assignment-link, .assignment-remove, .permission-switch input) { border-color: var(--color-field); }
 #users :is(input, select) { color: var(--color-ink); background: var(--color-card); padding: var(--space-2xs) var(--space-xs); }

@@ -180,7 +180,7 @@ export function formalTable(snapshot, kind) {
   const maps = lookups(snapshot.projects, snapshot.packages);
   if (kind === 'implementation') {
     return {
-      headers: ['Proyek', 'Nama proyek', 'Wilayah', 'Paket', 'Kontraktor', 'Tanggal kerja', 'ID laporan', 'ID revisi', 'Versi', 'Pelapor', 'Progres terlapor (%)', 'Volume harian', 'Satuan', 'Tenaga kerja', 'Cuaca', 'Uraian', 'Pengiriman', 'Review', 'Bukti', 'Acuan', 'Waktu penerimaan', 'Pembaruan'],
+      headers: ['Kode proyek', 'Proyek', 'Wilayah', 'Paket', 'Perusahaan penanggung jawab', 'Tanggal kerja', 'ID laporan', 'ID revisi', 'Versi', 'Pembuat laporan', 'Progres terlapor (%)', 'Volume harian', 'Satuan', 'Tenaga kerja', 'Cuaca', 'Uraian', 'Pengiriman', 'Review', 'Bukti', 'Acuan', 'Waktu penerimaan', 'Pembaruan'],
       rows: snapshot.reports.map((report) => {
         const project = maps.projects.get(report.kode);
         const pkg = maps.packages.get(report.packageId);
@@ -204,7 +204,7 @@ export function formalTable(snapshot, kind) {
       report ? reportId(report) : 'Tidak tersedia', report ? scalar(report.revisionId) : 'Tidak tersedia', report ? reviewLabel(report) : 'Belum ada review'];
   });
   return {
-    headers: ['Proyek', 'Nama proyek', 'Wilayah', 'Paket', 'Kontraktor', 'Tanggal terakhir dalam periode', 'Terakhir terlapor dalam periode (%)', 'Progres terverifikasi (%)', 'Tanggal keadaan terverifikasi', 'Baseline (%)', 'Deviasi (poin %)', 'Sumber progres terverifikasi', 'ID laporan terakhir', 'ID revisi', 'Review laporan terakhir'],
+    headers: ['Kode proyek', 'Proyek', 'Wilayah', 'Paket', 'Perusahaan penanggung jawab', 'Tanggal terakhir dalam periode', 'Terakhir terlapor dalam periode (%)', 'Progres terverifikasi (%)', 'Tanggal keadaan terverifikasi', 'Baseline (%)', 'Deviasi (poin %)', 'Sumber progres terverifikasi', 'ID laporan terakhir', 'ID revisi', 'Review laporan terakhir'],
     rows,
   };
 }
@@ -369,24 +369,25 @@ export async function initOperations({ daily, approval, missing, exportRoot } = 
       const project = maps.projects.get(report.kode);
       const pkg = maps.packages.get(report.packageId);
       const progress = snap.progress[report.packageId] || {};
-      return `<tr><td>${e(date(report.tanggal))}<small>${e(reportId(report))} · v${e(report.version)}</small></td>
-        <td><b>${e(report.kode)}</b><small>${e(project?.nama)}</small><small>${e(pkg?.nama)} · ${e(pkg?.kontraktor || 'Kontraktor tidak tersedia')}</small></td>
-        <td>${e(identity(report.createdBy))}</td><td class="ops-numeric">${e(number(report.progres, '%'))}</td>
+      return `<tr><td class="ops-nowrap">${e(date(report.tanggal))}</td>
+        <td class="ops-project">${e(project?.nama || 'Nama proyek tidak tersedia')}</td>
+        <td class="ops-nowrap">${e(pkg?.packageCode || 'Kode paket tidak tersedia')}</td>
+        <td class="ops-company">${e(pkg?.kontraktor || 'Perusahaan belum tersedia')}</td><td class="ops-numeric">${e(number(report.progres, '%'))}</td>
         <td class="ops-numeric">${e(number(progress.verified, '%'))}<small>${e(progress.verified == null ? 'Belum ada revisi diterima' : progress.source?.workDate ? date(progress.source.workDate) : 'Tanggal efektif tidak tersedia')}</small></td>
-        <td>${e(number(report.volume))} ${e(report.satuan || '')}</td><td>${e(number(report.tenaga))} orang<small>${e(report.cuaca || 'Cuaca tidak tersedia')}</small></td>
-        <td>${status(deliveryLabel(report), deliveryState(report) === 'queued' ? 'ops-wait' : '')}<br>${status(reviewLabel(report), reviewState(report) === 'accepted' ? 'ops-ok' : reviewState(report) === 'needs-revision' ? 'ops-bad' : 'ops-wait')}</td>
+        <td class="ops-numeric">${e(number(report.volume))} ${e(report.satuan || '')}</td><td class="ops-numeric">${e(number(report.tenaga))} orang</td><td>${e(report.cuaca || 'Cuaca tidak tersedia')}</td>
+        <td>${status(deliveryLabel(report), deliveryState(report) === 'queued' ? 'ops-wait' : '')}</td><td>${status(reviewLabel(report), reviewState(report) === 'accepted' ? 'ops-ok' : reviewState(report) === 'needs-revision' ? 'ops-bad' : 'ops-wait')}</td>
         <td>${e(evidenceLabel(report))}</td><td><a class="ops-link" href="${e(operationsRoute(page, reportId(report), state.filters))}" aria-label="Detail laporan ${e(reportId(report))}">Detail laporan</a></td></tr>`;
     });
     return `<p class="ops-summary"><b>${e(reports.length)} laporan pada filter ini.</b> ${e(pending)} menunggu verifikasi · ${e(revision)} perlu revisi · ${e(accepted)} diterima untuk monitoring.</p>
       <p>Progres terverifikasi adalah keadaan efektif terkini per paket pada waktu snapshot, bukan nilai maksimum atau rata-rata. Baseline: —. Deviasi: belum dapat dihitung tanpa acuan sebanding.</p>
-      ${tableWrap(TITLES[page], ['Tanggal / revisi', 'Proyek / paket', 'Pelapor', 'Terlapor', 'Terverifikasi terkini', 'Volume harian', 'Tenaga / cuaca', 'Pengiriman / review', 'Bukti', 'Tindakan'], rows, `${reports.length} laporan sesuai filter`)}`;
+      ${tableWrap(TITLES[page], ['Tanggal kerja', 'Proyek', 'Paket', 'Perusahaan penanggung jawab', 'Terlapor', 'Terverifikasi terkini', 'Volume harian', 'Tenaga kerja', 'Cuaca', 'Pengiriman', 'Review', 'Bukti', 'Tindakan'], rows, `${reports.length} laporan sesuai filter`)}`;
   }
   function history(report) {
     const revisions = report.revisions || [];
     const decisions = report.decisions || [];
     const revisionRows = revisions.map((revision) => `<tr><td>${e(revision.version ?? revision.revisionNumber ?? 'Tidak tersedia')}<small>${e(revision.revisionId || revision.id || '')}</small><small>${revision.supersedesRevisionId ? `Menggantikan ${e(revision.supersedesRevisionId)}` : 'Revisi awal'}</small></td><td>${e(number(revision.progres ?? revision.progressReported, '%'))}</td><td>${e(dateTime(revision.createdAt || revision.updatedAt))}</td><td>${e(identity(revision.createdBy))}</td><td>${e(revision.correctionReason || revision.reason || revision.uraian || 'Tidak tersedia')}</td></tr>`);
     const decisionRows = decisions.map((decision) => `<tr><td>${e(decision.decisionId || 'Tidak tersedia')}<small>Sebelumnya: ${e(decision.previousDecisionId || 'Tidak ada')}</small></td><td>${e(decision.revisionId || 'Tidak tersedia')}</td><td>${e(({ accepted: 'Diterima untuk monitoring', 'needs-revision': 'Perlu revisi' })[decision.action] || decision.action || 'Tidak tersedia')}</td><td>${e(identity(decision.actor || decision.reviewer || decision.reviewerId || decision.createdBy))}</td><td>${e(dateTime(decision.decidedAt || decision.createdAt))}</td><td>${e(decision.reason || 'Tanpa catatan tambahan')}</td></tr>`);
-    return `<section class="ops-section"><h2>Riwayat revisi</h2>${revisionRows.length ? tableWrap('Riwayat revisi immutable', ['Versi / ID', 'Progres', 'Dibuat', 'Pelapor', 'Alasan / uraian'], revisionRows, 'Revisi lama tidak ditimpa oleh koreksi') : '<p>Riwayat revisi belum tersedia pada adapter.</p>'}</section>
+    return `<section class="ops-section"><h2>Riwayat revisi</h2>${revisionRows.length ? tableWrap('Riwayat revisi immutable', ['Revisi', 'Progres', 'Dibuat', 'Pembuat revisi', 'Catatan revisi'], revisionRows, 'Revisi lama tidak ditimpa oleh koreksi') : '<p>Riwayat revisi belum tersedia pada adapter.</p>'}</section>
       <section class="ops-section"><h2>Riwayat keputusan</h2>${decisionRows.length ? tableWrap('Riwayat keputusan monitoring', ['Keputusan / sebelumnya', 'Revisi', 'Hasil', 'Reviewer', 'Waktu', 'Alasan'], decisionRows, 'Keputusan merujuk revisi tertentu, tanpa efek pembayaran') : '<p>Belum ada keputusan untuk laporan ini.</p>'}</section>`;
   }
   const BASE = import.meta.env.BASE_URL
@@ -440,16 +441,17 @@ export async function initOperations({ daily, approval, missing, exportRoot } = 
       const project = maps.projects.get(row.kode);
       const last = snap.reports.find((report) => report.packageId === row.packageId);
       const followUps = row.followUps || [];
-      return `<tr><td><b>${e(row.kode)}</b><small>${e(project?.nama)}</small><small>${e(pkg?.nama)} · ${e(pkg?.kontraktor || 'Kontraktor tidak tersedia')}</small></td>
-        <td>${status(deliveryComplianceLabel(row), ['late', 'missing', 'queued'].includes(row.deliveryStatus) ? 'ops-wait' : 'ops-ok')}<small>${e(row.reviewState ? reviewLabel({ reviewState: row.reviewState }) : 'Belum ada review')}</small><small>Penerimaan: ${e(dateTime(row.receivedAt))}</small></td>
-        <td>${e(identity(row.pic))}</td><td>${e(row.cutOff ? dateTime(row.cutOff) : '20:00 WIB, usulan')}<small>${e(row.obligationReason || row.reason || 'Kewajiban demo berdasarkan masa aktif paket; kalender/pengecualian resmi belum disahkan.')}</small></td>
+      return `<tr><td class="ops-project">${e(project?.nama || 'Nama proyek tidak tersedia')}</td>
+        <td class="ops-nowrap">${e(pkg?.packageCode || 'Kode paket tidak tersedia')}</td><td class="ops-company">${e(pkg?.kontraktor || 'Perusahaan belum tersedia')}</td>
+        <td>${status(deliveryComplianceLabel(row), ['late', 'missing', 'queued'].includes(row.deliveryStatus) ? 'ops-wait' : 'ops-ok')}</td><td>${e(row.reviewState ? reviewLabel({ reviewState: row.reviewState }) : 'Belum ada review')}</td><td>${e(dateTime(row.receivedAt))}</td>
+        <td>${e(identity(row.pic))}</td><td>${e(row.cutOff ? dateTime(row.cutOff) : '20:00 WIB, usulan')}</td><td><details><summary>Dasar kewajiban</summary><p>${e(row.obligationReason || row.reason || 'Kewajiban demo berdasarkan masa aktif paket; kalender/pengecualian resmi belum disahkan.')}</p></details></td>
         <td>${row.reportId ? `<a class="ops-link" href="${e(operationsRoute('daily', row.reportId, { ...state.filters, from: '', status: '' }))}">Laporan tanggal ini</a>` : 'Belum ada kiriman diterima'}${last ? `<small>Terakhir ${e(date(last.tanggal))}, ${e(deliveryLabel(last))}</small>` : '<small>Belum ada laporan sampai tanggal ini.</small>'}</td>
         <td><details><summary>Catatan tindak lanjut (${e(followUps.length)})</summary>${followUps.length ? `<ol>${followUps.map((note) => `<li><p class="ops-prose">${e(note.note || note.catatan || '')}</p><small>${e(identity(note.actor || note.createdBy))} · ${e(dateTime(note.createdAt || note.at))}</small></li>`).join('')}</ol>` : '<p>Belum ada catatan lokal.</p>'}
         <form class="ops-follow-up" data-package="${e(row.packageId)}" data-date="${e(row.date || state.filters.to)}" novalidate><label>Catatan untuk paket/tanggal ini<textarea name="note" rows="3" maxlength="2000" required></textarea></label><p class="ops-error" role="alert" hidden></p><button type="submit" class="ops-button">Simpan catatan lokal</button></form></details></td></tr>`;
     });
     return `<p class="ops-notice">${e(POLICY)} Evaluasi ${e(dateTime(snap.asOf))}. Versi kebijakan: ${e(rows[0]?.policyVersion || snap.policyLabel)}.</p>
       <p>Kiriman delivered yang menunggu verifikasi tetap memenuhi kewajiban kirim. Antrean perangkat tidak memenuhi kewajiban layanan. Catatan tindak lanjut hanya lokal, tidak mengirim WhatsApp, email atau notifikasi eksternal.</p>
-      ${rows.length ? summary + tableWrap('Kepatuhan paket aktif', ['Proyek / paket', 'Pengiriman / review', 'PIC', 'Cut-off / alasan', 'Laporan', 'Tindak lanjut lokal'], tableRows, `${rows.length} paket eligible pada ${state.filters.to}; paket di luar masa aktif dikecualikan oleh provider`) : emptyState('missing', state)}`;
+      ${rows.length ? summary + tableWrap('Kepatuhan paket aktif', ['Proyek', 'Paket', 'Perusahaan penanggung jawab', 'Pengiriman', 'Review', 'Diterima pada', 'PIC', 'Batas waktu', 'Dasar kewajiban', 'Laporan', 'Tindak lanjut lokal'], tableRows, `${rows.length} paket eligible pada ${state.filters.to}; paket di luar masa aktif dikecualikan oleh provider`) : emptyState('missing', state)}`;
   }
   function exportView(state) {
     const snap = state.snapshot;

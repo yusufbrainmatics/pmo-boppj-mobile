@@ -109,7 +109,9 @@ export function createDemoProvider({ projects = [], reports = [], contractor = {
   const originalProjects = jsonData(projects)
   const contractorData = jsonData(contractor)
   const assignments = contractorData.paket ?? []
+  const sampleCompanies = contractorData.perusahaanContoh ?? []
   if (!Array.isArray(originalProjects) || !Array.isArray(assignments)) invalid('projects', 'Master dan penugasan harus berupa daftar.')
+  if (!Array.isArray(sampleCompanies) || sampleCompanies.some((name) => typeof name !== 'string' || !name.trim())) invalid('perusahaanContoh', 'Perusahaan contoh harus berupa daftar nama.')
   const knownRegions = new Set(originalProjects.map((p) => `${p.provinsi}\u0000${p.kabupaten}`))
   const knownGroups = new Set(originalProjects.map((p) => p.kelompok))
   const subscribers = new Set()
@@ -156,11 +158,13 @@ export function createDemoProvider({ projects = [], reports = [], contractor = {
   const multiPackageCode = assignments.find((a) => seedProjects.some((p) => p.kode === a.kode))?.kode ?? seedProjects[0]?.kode
 
   function makePackage(project, index = '01', assignment) {
+    const packageId = `package:${project.kode}:${index}`
+    const sampleCompany = sampleCompanies.length ? sampleCompanies[Number.parseInt(hash(packageId).slice(-8), 16) % sampleCompanies.length] : null
     return {
-      ...clone(assignment ?? {}), packageId: `package:${project.kode}:${index}`, projectId: project.projectId, kode: project.kode,
+      ...clone(assignment ?? {}), packageId, projectId: project.projectId, kode: project.kode,
       packageCode: index === '01' ? assignment?.kontrak ?? `${project.kode}-P01` : `${project.kode}-P${index}`,
       nama: index === '01' ? `Paket ${project.kode}` : `Paket ${index} ${project.kode} — ilustratif`,
-      contractorId: assignment ? 'contractor-demo' : null, kontraktor: assignment ? contractorData.pengguna?.perusahaan ?? null : null,
+      contractorId: assignment ? 'contractor-demo' : null, kontraktor: (assignment ? contractorData.pengguna?.perusahaan : null) || sampleCompany,
       activeFrom: assignment?.activeFrom ?? (assignment || index !== '01' ? addDays(initialDate, -30) : null), activeTo: assignment?.activeTo ?? null,
       reportingRequired: assignment?.reportingRequired ?? Boolean(assignment || index !== '01'), workingDays: clone(assignment?.workingDays ?? [0, 1, 2, 3, 4, 5, 6]),
       excludedDates: clone(assignment?.excludedDates ?? []), pic: assignment ? contractorData.pengguna?.nama ?? null : null,
@@ -390,6 +394,11 @@ export function createDemoProvider({ projects = [], reports = [], contractor = {
     } catch {
       persistence = { mode: 'session', status: 'recovered', warning: 'Data sesi tidak dapat dibaca; dimuat ulang dari data awal.' }
     }
+  }
+
+  // Sesi sebelum seed perusahaan ditambahkan tetap diperkaya tanpa mereset laporan.
+  for (const pkg of state.packages) {
+    if (!pkg.kontraktor) pkg.kontraktor = seedPackages.find((seed) => seed.packageId === pkg.packageId)?.kontraktor ?? null
   }
 
   function getProjects(filters = {}, actor = defaultReviewer()) {

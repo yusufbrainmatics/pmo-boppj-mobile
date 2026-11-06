@@ -287,6 +287,15 @@
   overflow-wrap: anywhere;
 }
 
+.content-module table:not(.kak-table) td:first-child {
+  min-width: 18rem;
+}
+
+.content-module .content-project {
+  min-width: 16rem;
+  overflow-wrap: normal;
+}
+
 .content-module th {
   color: var(--color-ink);
   background: var(--color-paper);

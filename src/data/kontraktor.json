@@ -6,6 +6,12 @@
     "perusahaan": "PT IlmuKomputerCom Braindevs Sistema",
     "telepon": "0812-0000-0000"
   },
+  "perusahaanContoh": [
+    "PT Braindevs Infrastruktur Nusantara",
+    "PT Braindevs Rekayasa Pantura",
+    "PT Braindevs Konstruksi Maritim",
+    "PT Braindevs Teknologi Pesisir"
+  ],
   "paket": [
     {
       "kode": "GSW-12",
