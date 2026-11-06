@@ -2,7 +2,7 @@
   width: 22px;
   height: 22px;
   flex: 0 0 22px;
-  color: #dce9ff;
+  color: var(--color-on-navy-idle);
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -11,15 +11,15 @@
 }
 
 .menu-item.active .menu-icon {
-  color: #0b4ebd;
+  color: var(--color-blue);
 }
 
 .menu-item:hover .menu-icon {
-  color: #fff;
+  color: var(--color-on-navy);
 }
 
 .menu-item.active:hover .menu-icon {
-  color: #0b4ebd;
+  color: var(--color-blue);
 }
 
 @media (max-width: 600px) {

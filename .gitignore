@@ -2,3 +2,5 @@ node_modules
 dist
 .DS_Store
 .hallmark/
+playwright-report/
+test-results/

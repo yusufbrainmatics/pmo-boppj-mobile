@@ -3,7 +3,7 @@
   import Icon from '../components/Icon.svelte'
   import Foto from '../components/Foto.svelte'
   import StatusBadge from '../components/StatusBadge.svelte'
-  import { app, proyekByKode } from '../lib/store.svelte.js'
+  import { app, proyekByKode, sinkron, isOnline } from '../lib/store.svelte.js'
   import { tgl, angka } from '../lib/format.js'
 
   let { id } = $props()
@@ -16,19 +16,27 @@
   {:else}
     <div class="tumpuk" style="gap:var(--space-2xs)">
       <div class="baris sebar"><span class="kode">{l.kode} · versi {l.versi}</span><StatusBadge status={l.status} /></div>
-      <h2 style="font-size:var(--text-lg)">{proyekByKode(l.kode).nama}</h2>
+      <h2 style="font-size:var(--text-lg)">{proyekByKode(l.kode)?.nama ?? l.kode}</h2>
       <p class="sub">Laporan tanggal {tgl(l.tanggal)}</p>
     </div>
 
     {#if l.status === 'ANTRE'}
-      <p class="peringatan wait"><Icon name="offline" size={20} /><span>Laporan tersimpan di perangkat dan dikirim saat sinyal kembali.</span></p>
+      <p class="peringatan wait"><Icon name="offline" size={20} /><span>Laporan antre di perangkat; belum masuk antrean review. Simulasi sinkron berjalan saat koneksi kembali.</span></p>
     {/if}
-    {#if l.status === 'DITOLAK'}
+    <p class="bantu">Data ilustratif dalam sesi tab yang sama. Status Diterima hanya simulasi monitoring, bukan persetujuan pembayaran atau penerimaan layanan produksi.</p>
+    {#if l.legacyUnmapped}<p class="peringatan wait">Laporan sesi lama belum dipetakan ke provider demo. Isi tetap dapat dibaca; statusnya bukan bukti pengiriman server.</p>{/if}
+    {#if l.syncError}
+      <p class="peringatan bad" role="alert">Antrean belum tersinkron: {l.syncError}</p>
+      <button class="btn" disabled={!isOnline()} onclick={sinkron}>Coba sinkron ulang</button>
+    {/if}
+    {#if l.status === 'DITOLAK' && !l.legacyUnmapped}
       <section class="peringatan bad" aria-label="Catatan verifikator">
         <Icon name="x" size={20} />
         <div><p>Input ditolak verifikator</p><p>{l.catatan}</p></div>
       </section>
       <a class="btn utama" href={'#/revisi/' + l.id}>Perbaiki dan kirim ulang</a>
+    {:else if l.status === 'DITERIMA' && !l.legacyUnmapped}
+      <a class="btn" href={'#/revisi/' + l.id}>Koreksi laporan</a>
     {/if}
     {#if l.anomali?.length}
       <p class="peringatan wait"><Icon name="isu" size={20} /><span>Ditandai untuk diperiksa: {l.anomali.join('; ')}.</span></p>
@@ -44,6 +52,16 @@
       <div><p class="kecil muted">Uraian kegiatan</p><p>{l.uraian}</p></div>
     </section>
 
+    {#if l.riwayatVersi?.length > 1}
+      <section class="card tumpuk" aria-labelledby="h-revisi">
+        <h3 id="h-revisi" class="judul-kartu">Riwayat revisi</h3>
+        <ol>
+          {#each l.riwayatVersi as revisi}
+            <li><strong>Versi {revisi.revisionNumber ?? revisi.versi} · {revisi.progres}%</strong><p>{revisi.uraian}</p>{#if revisi.reason}<p class="bantu">Alasan koreksi: {revisi.reason}</p>{/if}</li>
+          {/each}
+        </ol>
+      </section>
+    {/if}
     <section class="tumpuk" aria-labelledby="h-foto">
       <h3 id="h-foto" class="judul-kartu">Foto lapangan</h3>
       {#if l.fotoIds.length}

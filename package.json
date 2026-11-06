@@ -9,10 +9,14 @@
     "build": "vite build",
     "build:pages": "BASE=/pmo-boppj-mobile/ vite build",
     "preview": "vite preview",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "playwright test",
+    "test:e2e:pages": "playwright test",
     "deploy:pages": "pnpm build:pages && gh-pages -d dist"
   },
   "devDependencies": {
     "@fontsource-variable/inter": "^5.3.0",
+    "@playwright/test": "^1.65.0",
     "@rolldown/binding-darwin-arm64": "1.2.16",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "gh-pages": "^6.3.0",

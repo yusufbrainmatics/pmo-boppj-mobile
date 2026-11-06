@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "no-inner-html-js": {
+      "ignorePaths": ["app.js", "admin-*.js", "backoffice/**", "tests/**"]
+    }
+  }
+}

@@ -1,6 +1,14 @@
+/* Brand layer for the backoffice demo login, overriding the token base in
+ * admin-login.css. Colors only via src/tokens.css; the old two-colour overlay
+ * is expressed as navy/navy-2 mixes because no green token exists. */
 .admin-login {
   background:
-    linear-gradient(to bottom, rgb(0 44 116 / 90%) 0%, rgb(0 44 116 / 80%) 46%, rgb(17 111 83 / 82%) 100%),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--color-navy) 90%, transparent) 0%,
+      color-mix(in oklch, var(--color-navy) 80%, transparent) 46%,
+      color-mix(in oklch, var(--color-navy-2) 82%, transparent) 100%
+    ),
     url('/bg-boppj.png') center / cover no-repeat;
 }
 
@@ -8,26 +16,28 @@
   width: min(100%, 520px);
   padding: 0;
   overflow: hidden;
-  border-radius: 28px;
-  background: #f3f5f9;
+  border: 0;
+  border-radius: var(--radius-hdr);
+  background: var(--color-paper);
+  box-shadow: none;
 }
 
 .admin-login__header {
   position: relative;
-  padding: 28px 32px 70px;
+  padding: var(--space-lg) var(--space-xl) calc(var(--space-xl) * 1.5);
   overflow: hidden;
-  background: #002c74;
-  color: #fff;
+  background: var(--color-navy);
+  color: var(--color-on-navy);
 }
 
 .admin-login__header::after {
   position: absolute;
-  right: -50px;
-  bottom: -82px;
-  width: 280px;
-  height: 150px;
-  border: 10px solid rgb(82 126 205 / 42%);
-  border-radius: 50%;
+  right: calc(-1 * var(--space-xl));
+  bottom: calc(-1 * var(--space-xl) * 1.75);
+  width: calc(var(--space-xl) * 6);
+  height: calc(var(--space-xl) * 3.25);
+  border: var(--space-sm) solid color-mix(in oklch, var(--color-on-navy-idle) 42%, transparent);
+  border-radius: var(--radius-pill);
   content: '';
 }
 
@@ -35,7 +45,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: var(--space-sm);
   position: relative;
   z-index: 1;
 }
@@ -45,12 +55,14 @@
   width: 76px;
   height: 76px;
   margin: 0;
+  border-radius: 0;
+  background: transparent;
   object-fit: contain;
 }
 
 .admin-login__agency {
-  color: #fff;
-  font-size: 18px;
+  color: var(--color-on-navy);
+  font-size: var(--text-lg);
   font-weight: 800;
   line-height: 1.04;
   letter-spacing: -0.025em;
@@ -59,16 +71,16 @@
 }
 
 .admin-login__identity strong {
-  font-size: 19px;
+  font-size: var(--text-lg);
   letter-spacing: -0.01em;
 }
 
 .admin-login__header h1 {
   position: relative;
   z-index: 1;
-  margin: 38px 0 10px;
-  color: #fff;
-  font-size: clamp(28px, 4vw, 38px);
+  margin: var(--space-xl) 0 var(--space-2xs);
+  color: var(--color-on-navy);
+  font-size: clamp(var(--text-xl), 4vw, var(--text-stat));
   letter-spacing: -0.03em;
   text-align: left;
 }
@@ -78,34 +90,37 @@
   z-index: 1;
   max-width: 470px;
   margin: 0;
-  color: #c8d8fa;
-  font-size: 16px;
+  color: var(--color-on-navy-idle);
+  font-size: var(--text-md);
   line-height: 1.5;
 }
 
 .admin-login__form-surface {
   position: relative;
   z-index: 2;
-  margin: -34px 20px 20px;
-  padding: 24px 28px;
-  border: 1px solid #d5dce9;
-  border-radius: 22px;
-  background: #fff;
+  margin: calc(-1 * var(--space-lg) * 1.1) var(--space-md) var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-field);
+  border-radius: var(--radius-l);
+  background: var(--color-card);
 }
 
 .admin-login__form-surface form button {
-  background: #0b4ebd;
+  background: var(--color-blue);
 }
 
 .admin-login__form-surface form button:hover {
-  background: #002c74;
+  background: var(--color-navy);
 }
 
 @media (max-width: 560px) {
-  .admin-login__card { border-radius: 22px; }
-  .admin-login__header { padding: 24px 24px 66px; }
-  .admin-login__header h1 { margin-top: 30px; }
+  .admin-login__card { border-radius: var(--radius-l); }
+  .admin-login__header { padding: var(--space-md) var(--space-md) calc(var(--space-xl) * 1.4); }
+  .admin-login__header h1 { margin-top: var(--space-lg); }
   .admin-login__brand { width: 62px; height: 62px; }
-  .admin-login__agency { font-size: 15px; }
-  .admin-login__form-surface { margin: -34px 14px 14px; padding: 24px 20px; }
+  .admin-login__agency { font-size: var(--text-md); }
+  .admin-login__form-surface {
+    margin: calc(-1 * var(--space-lg) * 1.1) var(--space-sm) var(--space-sm);
+    padding: var(--space-md) var(--space-sm);
+  }
 }

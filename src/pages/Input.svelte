@@ -2,6 +2,8 @@
   import Page from '../components/Page.svelte'
   import Icon from '../components/Icon.svelte'
   import FotoPicker from '../components/FotoPicker.svelte'
+  import { ambilFoto } from '../lib/photos.js'
+  import { provider } from '../../admin-data.js'
   import {
     app, paketSaya, progresDiterima, laporanAktifPada, kirimLaporan, revisiLaporan, kabari, isOnline,
   } from '../lib/store.svelte.js'
@@ -26,27 +28,33 @@
     uraian: lama?.uraian ?? '',
     cuaca: lama?.cuaca ?? app.cuacaTerakhir,
     tenaga: lama ? String(lama.tenaga) : '',
+    alasan: '',
   })
   let fotoIds = $state([])
   let dicoba = $state(false)
   let ringkas = $state([])
   let kirimDiklik = $state(false)
+  let galatKirim = $state('')
+  const submissionId = crypto.randomUUID()
 
-  const diterima = $derived(progresDiterima(f.kode))
+  const diterima = $derived(paketSaya.some((p) => p.kode === f.kode) ? progresDiterima(f.kode) : 0)
+  const terverifikasi = $derived(paketSaya.some((p) => p.kode === f.kode) ? provider.getProgress(f.kode).verified : null)
   const regresi = $derived(f.progres !== '' && Number(f.progres) < diterima)
   const fotoLama = lama?.foto ?? 0
 
   function validasi() {
     const e = {}
     const kini = isoHariIni()
+    if (!paketSaya.some((p) => p.kode === f.kode)) e.kode = 'Proyek di luar penugasan akun demo ini.'
+    if (lama?.status === 'DITERIMA' && f.alasan.trim().length < 10) e.alasan = 'Jelaskan alasan koreksi minimal 10 karakter.'
     if (!f.tanggal) e.tanggal = 'Pilih tanggal laporan.'
     else if (f.tanggal > kini) e.tanggal = 'Tanggal tidak boleh di masa depan.'
     else if (f.tanggal < isoHariIni(-7)) e.tanggal = 'Laporan hanya dapat dikirim untuk 7 hari terakhir.'
     else if (laporanAktifPada(f.kode, f.tanggal, revisiId)) e.tanggal = `Laporan ${f.kode} tanggal ${tgl(f.tanggal)} sudah ada dan masih berjalan.`
     const p = Number(f.progres)
-    if (f.progres === '' || Number.isNaN(p) || p < 0 || p > 100) e.progres = 'Isi angka antara 0 dan 100.'
+    if (f.progres === '' || !Number.isFinite(p) || p < 0 || p > 100) e.progres = 'Isi angka antara 0 dan 100.'
     const v = Number(f.volume)
-    if (f.volume === '' || Number.isNaN(v) || v < 0) e.volume = 'Isi volume pekerjaan hari ini (0 jika tidak ada).'
+    if (f.volume === '' || !Number.isFinite(v) || v < 0) e.volume = 'Isi volume pekerjaan hari ini (0 jika tidak ada).'
     if (f.uraian.trim().length < 10) e.uraian = 'Tuliskan kegiatan minimal 10 karakter.'
     const t = Number(f.tenaga)
     if (f.tenaga === '' || !Number.isInteger(t) || t < 0) e.tenaga = 'Isi jumlah tenaga kerja sebagai bilangan bulat.'
@@ -73,13 +81,25 @@
     const data = {
       kode: f.kode, tanggal: f.tanggal, progres: Number(f.progres), volume: Number(f.volume), satuan: f.satuan,
       uraian: f.uraian.trim(), cuaca: f.cuaca, tenaga: Number(f.tenaga), fotoIds: [...(lama?.fotoIds ?? []), ...fotoIds],
-      anomali: regresi ? [`Progres ${Number(f.progres)}% lebih rendah dari progres diterima (${diterima}%)`] : [],
+      anomali: regresi ? [`Progres ${Number(f.progres)}% lebih rendah dari acuan (${diterima}%)`] : [],
+      reason: f.alasan.trim(),
     }
-    let id = revisiId
-    if (revisiId) revisiLaporan(revisiId, data)
-    else id = kirimLaporan(data)
-    kabari(isOnline() ? 'Laporan terkirim, menunggu verifikasi.' : 'Tidak ada koneksi. Laporan antre dan terkirim otomatis.')
-    go('/riwayat/' + id)
+    galatKirim = ''
+    try {
+      const foto = await Promise.all([...new Set(data.fotoIds)].map((id) => ambilFoto(id)))
+      const aktif = foto.filter((r) => r && r.expiresAt > Date.now())
+      if (fotoIds.length && !fotoIds.every((id) => aktif.some((r) => r.id === id))) throw new Error('Foto sudah kedaluwarsa. Ambil ulang foto sebelum mengirim.')
+      data.fotoIds = aktif.map((r) => r.id)
+      data.evidenceRefs = aktif.map((r) => ({ id: r.id, expiresAt: new Date(r.expiresAt).toISOString() }))
+      let id = revisiId
+      if (revisiId) revisiLaporan(revisiId, data, submissionId)
+      else id = kirimLaporan(data, submissionId)
+      kabari(isOnline() ? 'Laporan terkirim, menunggu verifikasi.' : 'Tidak ada koneksi. Laporan antre dan terkirim otomatis.')
+      go('/riwayat/' + id)
+    } catch (error) {
+      galatKirim = error.message || 'Laporan belum tersimpan. Periksa isian dan coba lagi.'
+      kirimDiklik = false
+    }
   }
 
   // Field errors revalidate live after the first submit; the summary only shrinks, so screen readers are not re-announced per keystroke.
@@ -111,9 +131,10 @@
         <h2 id="s-proyek" class="judul-kartu">Proyek dan tanggal</h2>
         <div class="field">
           <label for="kode">Proyek</label>
-          <select id="kode" bind:value={f.kode} disabled={!!revisiId}>
+          <select id="kode" bind:value={f.kode} disabled={!!revisiId} aria-invalid={galat.kode ? 'true' : undefined} aria-describedby={galat.kode ? 'e-kode' : undefined}>
             {#each paketSaya as p}<option value={p.kode}>{p.kode} · {p.nama}</option>{/each}
           </select>
+          {#if galat.kode}<p id="e-kode" class="galat">{galat.kode}</p>{/if}
         </div>
         <div class="field">
           <label for="tgl">Tanggal laporan</label>
@@ -131,7 +152,7 @@
             <input id="prog" inputmode="decimal" type="number" min="0" max="100" step="0.1" placeholder={String(diterima)} bind:value={f.progres} aria-invalid={galat.progres ? 'true' : undefined} aria-describedby={galat.progres ? 'prog-bantu e-prog' : 'prog-bantu'} />
             <button type="button" aria-label="Tambah 1 persen" onclick={() => geser(1)}><Icon name="plus" /></button>
           </div>
-          <p id="prog-bantu" class="bantu">Terverifikasi terakhir: <b>{diterima}%</b>.</p>
+          <p id="prog-bantu" class="bantu">{terverifikasi === null ? 'Progres awal' : 'Terverifikasi terakhir'}: <b>{diterima}%</b>.</p>
           {#if galat.progres}<p id="e-prog" class="galat">{galat.progres}</p>{/if}
         </div>
         {#if regresi}
@@ -178,7 +199,15 @@
         <FotoPicker bind:ids={fotoIds} galat={galat.foto} labelId="lbl-foto" />
       </section>
 
-      <button class="btn utama" type="submit" disabled={kirimDiklik}>{revisiId ? 'Kirim ulang' : 'Kirim progres'}</button>
+      {#if lama?.status === 'DITERIMA'}
+        <div class="field">
+          <label for="alasan">Alasan koreksi laporan diterima</label>
+          <textarea id="alasan" bind:value={f.alasan} aria-invalid={galat.alasan ? 'true' : undefined} aria-describedby={galat.alasan ? 'e-alasan' : undefined}></textarea>
+          {#if galat.alasan}<p id="e-alasan" class="galat">{galat.alasan}</p>{/if}
+        </div>
+      {/if}
+      {#if galatKirim}<p class="peringatan bad" role="alert">{galatKirim}</p>{/if}
+      <button class="btn utama" type="submit" disabled={kirimDiklik}>{kirimDiklik ? 'Menyimpan…' : revisiId ? 'Kirim ulang' : 'Kirim progres'}</button>
       {#if revisiId}<a class="btn" href="#/riwayat">Batal</a>{/if}
     </form>
   {/if}

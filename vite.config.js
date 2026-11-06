@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// The admin mockup owns `/`; the Svelte contractor PWA is mounted at `/m/`.
+// The entry redirects to reporting; the backoffice requires its own URL.
 const base = process.env.BASE || '/'
 const mobileBase = base === '/' ? '/m/' : `${base.replace(/\/$/, '')}/m/`
 
@@ -12,8 +12,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        admin: resolve(import.meta.dirname, 'index.html'),
+        entry: resolve(import.meta.dirname, 'index.html'),
         mobile: resolve(import.meta.dirname, 'm/index.html'),
+        backoffice: resolve(import.meta.dirname, 'backoffice/index.html'),
       },
     },
   },
@@ -21,6 +22,7 @@ export default defineConfig({
     svelte(),
     VitePWA({
       registerType: 'autoUpdate',
+      scope: mobileBase,
       manifest: {
         name: 'PMO Kontraktor BOPPJ',
         short_name: 'PMO BOPPJ',
@@ -39,7 +41,10 @@ export default defineConfig({
         ],
       },
       workbox: {
+        navigateFallback: `${mobileBase}index.html`,
+        navigateFallbackDenylist: [/\/backoffice(?:\/|$)/],
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        globIgnores: ['**/backoffice/**'],
         runtimeCaching: [
           {
             // Map tiles only; user photos live in IndexedDB and never pass through the SW.

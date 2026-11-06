@@ -22,7 +22,7 @@
   </svg>
   <div class="hdr-bar"><span class="merek"><img src={import.meta.env.BASE_URL + 'logo-boppj.png'} width="32" height="32" alt="" />PMO BOPPJ</span></div>
   <h1 tabindex="-1">Masuk ke PMO Kontraktor</h1>
-  <p class="hdr-sub">Gunakan akun yang diberikan BOPPJ untuk perusahaan Anda.</p>
+  <p class="hdr-sub">Pelaporan progres harian proyek Pantura Jawa.</p>
 </header>
 
 <main class="tarik">
@@ -39,7 +39,7 @@
     {#if galat}<p id="galat-login" class="galat" role="alert"><Icon name="isu" size={18} />{galat}</p>{/if}
     <button class="btn utama" type="submit">Masuk</button>
     <button type="button" class="btn" style="border-color:transparent;background:transparent" aria-expanded={lupa} onclick={() => (lupa = !lupa)}>Lupa kata sandi?</button>
-    {#if lupa}<p class="peringatan info" role="status">Reset kata sandi dilakukan oleh Analis Monitoring BOPPJ. Hubungi callcenter@boppj.go.id atau +62 821 1300 500.</p>{/if}
+    {#if lupa}<p class="peringatan info" role="status">Prototipe tidak menyediakan reset kata sandi. Gunakan akun demo yang ditampilkan di bawah.</p>{/if}
   </form>
 
   <section class="card tumpuk" style="gap:var(--space-3xs)" aria-label="Akun demo">

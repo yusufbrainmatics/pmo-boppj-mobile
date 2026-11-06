@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Backoffice monitoring proyek PMO BOPPJ." />
+    <title>Backoffice Demo · PMO BOPPJ</title>
+    <link rel="stylesheet" href="../admin-users.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../admin-login.css" />
+    <link rel="stylesheet" href="../admin-brand.css" />
+    <link rel="stylesheet" href="../admin-icons.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace" id="skip-workspace">Lewati navigasi</a>
+    <main class="admin-login" id="admin-login">
+      <section class="admin-login__card" aria-labelledby="admin-login-title">
+        <header class="admin-login__header">
+          <div class="admin-login__identity">
+            <img class="admin-login__brand" src="%BASE_URL%logo-boppj.png" width="76" height="76" alt="BOPPJ" />
+            <span class="admin-login__agency">Badan Otorita<br />Pengelola Pantai<br />Utara Jawa</span>
+          </div>
+          <p class="admin-login__eyebrow">BACKOFFICE</p>
+          <h1 id="admin-login-title">Portal PMO BOPPJ</h1>
+          <p>Ruang kerja monitoring dan review laporan kontraktor.</p>
+        </header>
+        <div class="admin-login__form-surface">
+          <form id="admin-login-form">
+            <label for="admin-email">Email</label>
+            <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="admin@boppj.go.id" aria-describedby="admin-login-error admin-demo-account" required />
+            <label for="admin-password">Kata sandi</label>
+            <input id="admin-password" name="password" type="password" autocomplete="current-password" aria-describedby="admin-login-error admin-demo-account" required />
+            <p class="admin-login__error" id="admin-login-error" role="alert" hidden></p>
+            <button type="submit">Masuk</button>
+          </form>
+          <p class="admin-login__hint" id="admin-demo-account">Akun demo: <strong>admin@boppj.go.id</strong><br />Kata sandi: <strong>demo1234</strong></p>
+          <p class="admin-login__hint">Sesi berlaku pada tab ini saja.</p>
+        </div>
+      </section>
+    </main>
+    <div class="portal-shell" id="admin-portal" hidden>
+      <aside class="sidebar" id="admin-sidebar" aria-label="Navigasi backoffice">
+        <header class="brand"><span>PMO BOPPJ</span><button type="button" id="mobile-menu-toggle" aria-controls="admin-menu" aria-expanded="false">Menu</button></header>
+        <div class="profile">
+          <img class="admin-login__brand" src="%BASE_URL%logo-boppj.png" width="48" height="48" alt="" />
+          <div><strong>Administrator</strong><span>Backoffice PMO</span></div>
+          <button type="button" id="admin-logout">Keluar</button>
+        </div>
+        <nav class="menu" id="admin-menu" aria-label="Halaman monitoring">
+          <a class="menu-item" href="#dashboard" data-page="dashboard" aria-label="Dashboard Monitoring"><span>Dashboard Monitoring</span></a>
+          <a class="menu-item" href="#projects" data-page="projects" aria-label="Data Proyek"><span>Data Proyek</span></a>
+          <a class="menu-item" href="#regions" data-page="regions" aria-label="Data Wilayah"><span>Data Wilayah</span></a>
+          <a class="menu-item" href="#management" data-page="management" aria-label="Kerangka Acuan Kerja"><span>Kerangka Acuan Kerja</span></a>
+          <a class="menu-item" href="#users" data-page="users" aria-label="Pengelolaan Akun"><span>Pengelolaan Akun</span></a>
+          <a class="menu-item" href="#daily" data-page="daily" aria-label="Performa Harian"><span>Performa Harian</span></a>
+          <a class="menu-item" href="#export" data-page="export" aria-label="Pelaporan dan Rekapitulasi"><span>Pelaporan dan Rekapitulasi</span></a>
+          <a class="menu-item" href="#map" data-page="map" aria-label="Peta Sebaran Proyek"><span>Peta Sebaran Proyek</span></a>
+          <a class="menu-item" href="#approval" data-page="approval" aria-label="Verifikasi dan Persetujuan Laporan"><span>Verifikasi dan Persetujuan Laporan</span><i id="approval-count" aria-label="Menunggu review">—</i></a>
+          <a class="menu-item" href="#missing" data-page="missing" aria-label="Kepatuhan Pelaporan"><span>Kepatuhan Pelaporan</span></a>
+          <a class="menu-item" href="#knowledge" data-page="knowledge" aria-label="Manajemen Pengetahuan"><span>Manajemen Pengetahuan</span></a>
+        </nav>
+      </aside>
+      <main class="workspace" id="workspace" tabindex="-1">
+        <header class="workspace-bar"><button type="button" id="sidebar-toggle" aria-controls="admin-sidebar" aria-expanded="true">Lipat navigasi</button><span>Backoffice / <span id="workspace-context">Monitoring</span></span><span class="demo-tag">DEMO</span></header>
+        <div id="shell-error" class="shell-error" role="alert" hidden></div>
+        <section class="page dashboard-page" id="dashboard" hidden aria-label="Dashboard Monitoring"><h1>Monitoring Proyek BOPPJ</h1><p role="status">Memuat master proyek…</p></section>
+        <section class="page" id="map" hidden aria-label="Peta Sebaran Proyek"><h1>Peta Sebaran Proyek</h1></section>
+        <section class="page" id="projects" hidden aria-label="Data Proyek"><h1>Data Proyek</h1></section>
+        <section class="page" id="regions" hidden aria-label="Data Wilayah"><h1>Data Wilayah</h1></section>
+        <section class="page" id="management" hidden aria-label="Kerangka Acuan Kerja"><h1>Kerangka Acuan Kerja</h1></section>
+        <section class="page" id="users" hidden aria-label="Pengelolaan Akun"><h1>Pengelolaan Akun</h1></section>
+        <section class="page" id="daily" hidden aria-label="Performa Harian"><h1>Performa Harian</h1></section>
+        <section class="page" id="export" hidden aria-label="Pelaporan dan Rekapitulasi"><h1>Pelaporan dan Rekapitulasi</h1></section>
+        <section class="page" id="approval" hidden aria-label="Verifikasi dan Persetujuan Laporan"><h1>Verifikasi dan Persetujuan Laporan</h1></section>
+        <section class="page" id="missing" hidden aria-label="Kepatuhan Pelaporan"><h1>Kepatuhan Pelaporan</h1></section>
+        <section class="page" id="knowledge" hidden aria-label="Manajemen Pengetahuan"><h1>Manajemen Pengetahuan</h1></section>
+      </main>
+    </div>
+    <noscript>Aktifkan JavaScript untuk membuka demonstrasi backoffice.</noscript>
+    <script type="module" src="../admin-auth.js"></script>
+    <script type="module" src="../admin-icons.js"></script>
+    <script type="module" src="../admin-users.js"></script>
+    <script type="module" src="../app.js"></script>
+  </body>
+</html>

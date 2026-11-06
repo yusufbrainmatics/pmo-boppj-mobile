@@ -16,6 +16,13 @@
   --color-on-navy: oklch(100.0% 0.000 90); /* #FFFFFF */
   --color-on-navy-idle: oklch(82.9% 0.046 266); /* #B9C7E6 */
   --color-ok: oklch(46.4% 0.142 141); /* #1F6B10 */
+  /* Palet tahap proyek — dipakai lintas halaman (chart, badge, tabel). */
+  --tahap-asesmen: oklch(55.1% 0.032 254); /* #64748B */
+  --tahap-master-plan: oklch(51.4% 0.083 219); /* #0E7490 */
+  --tahap-pra-konstruksi: oklch(56.3% 0.126 57); /* #B45309 */
+  --tahap-konstruksi: oklch(46.4% 0.142 141); /* #1F6B10 */
+  --tahap-selesai: oklch(32.0% 0.133 260); /* #002C75 */
+  --color-orange: oklch(63.2% 0.157 55); /* #C2620A — kelompok Integrasi Tol */
   --color-ok-bg: oklch(95.0% 0.026 138); /* #E6F3E2 */
   --color-wait: oklch(47.9% 0.112 60); /* #8A4B00 */
   --color-wait-bg: oklch(95.8% 0.038 85); /* #FDF0D5 */
