@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
 import { DEMO_LABEL } from '../src/lib/demo-domain.js';
 import {
   REPORT_CATALOG, SNAPSHOT_TTL_MS, normalizeFilters, validateFilters, operationsRoute,
@@ -239,13 +240,22 @@ test('formal report rows retain source IDs, unavailable legacy reference and exp
 });
 
 
-test('seed laporan membawa foto contoh foto-demo yang tervalidasi', async () => {
+test('seluruh seed laporan membawa foto contoh yang tersedia, dikreditkan, dan berjumlah konsisten', async () => {
   const { provider } = await import('../admin-data.js');
+  const { default: reports } = await import('../src/data/laporan.json', { with: { type: 'json' } });
   const actor = { id: 'reviewer-demo', role: 'reviewer', projectCodes: provider.getProjects().map((p) => p.kode) };
-  const detail = provider.getReport('L-0911', actor);
-  assert.equal(detail.evidenceAvailability, 'available');
-  assert.ok(detail.evidenceRefs.length >= 2);
-  assert.ok(detail.evidenceRefs.every((ref) => /^foto-demo\/[a-z0-9-]+\.jpg$/.test(ref.url)));
+  const credits = readFileSync(new URL('../public/foto-demo/CREDITS.md', import.meta.url), 'utf8');
+  for (const report of reports) {
+    const detail = provider.getReport(report.id, actor);
+    assert.equal(detail.evidenceAvailability, 'available', report.id);
+    assert.ok(detail.evidenceRefs.length >= 2, report.id);
+    assert.equal(detail.foto, detail.evidenceRefs.length, report.id);
+    for (const ref of detail.evidenceRefs) {
+      assert.match(ref.url, /^foto-demo\/[a-z0-9-]+\.jpg$/);
+      assert.ok(existsSync(new URL(`../public/${ref.url}`, import.meta.url)), ref.url);
+      assert.ok(credits.includes(`**${ref.url.slice('foto-demo/'.length)}**`), ref.url);
+    }
+  }
 });
 test('CSV and printable output carry the same snapshot, filter, period, policy, quality and authority disclaimer', () => {
   const { snapshot } = fixture();

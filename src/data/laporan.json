@@ -17,8 +17,8 @@
         "url": "foto-demo/batu-pelindung.jpg"
       },
       {
-        "id": "foto-demo:revetment",
-        "url": "foto-demo/revetment.jpg"
+        "id": "foto-demo:beton-pantai",
+        "url": "foto-demo/beton-pantai.jpg"
       },
       {
         "id": "foto-demo:excavator-pantai",
@@ -37,7 +37,7 @@
     "cuaca": "Cerah",
     "tenaga": 60,
     "status": "DITERIMA",
-    "foto": 4,
+    "foto": 2,
     "evidenceRefs": [
       {
         "id": "foto-demo:pengecoran",
@@ -60,7 +60,7 @@
     "cuaca": "Berawan",
     "tenaga": 42,
     "status": "DITERIMA",
-    "foto": 3,
+    "foto": 2,
     "evidenceRefs": [
       {
         "id": "foto-demo:seawall-sunda-kelapa",
@@ -106,7 +106,7 @@
     "cuaca": "Hujan",
     "tenaga": 35,
     "status": "DITOLAK",
-    "foto": 1,
+    "foto": 2,
     "catatan": "Progres 28% lebih rendah dari laporan yang diterima sebelumnya (30%). Mohon periksa volume, atau jelaskan koreksi pada uraian kegiatan.",
     "evidenceRefs": [
       {
@@ -130,15 +130,15 @@
     "cuaca": "Cerah",
     "tenaga": 44,
     "status": "DITERIMA",
-    "foto": 3,
+    "foto": 2,
     "evidenceRefs": [
       {
         "id": "foto-demo:tol-aerial",
         "url": "foto-demo/tol-aerial.jpg"
       },
       {
-        "id": "foto-demo:breakwater-konstruksi",
-        "url": "foto-demo/breakwater-konstruksi.jpg"
+        "id": "foto-demo:tol-marunda",
+        "url": "foto-demo/tol-marunda.jpg"
       }
     ]
   }
