@@ -123,3 +123,9 @@ test('hamburger drawer opens navigation on narrow screens', async ({ page }) => 
   await page.keyboard.press('Escape')
   await expect(menu).toBeHidden()
 })
+
+test('daily report detail shows demo field photos', async ({ page }) => {
+  await masukAdmin(page, 'daily/L-0911?to=2026-11-06&kode=NCICD-A-03')
+  await expect(page.locator('.ops-foto-grid img').first()).toBeVisible()
+  await expect(page.getByAltText(/Foto lapangan 1 \(contoh\)/)).toBeVisible()
+})

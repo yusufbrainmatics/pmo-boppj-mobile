@@ -58,7 +58,7 @@ test('adapter uses the exact source master and preserves contractor assignments 
   assert.deepEqual(DEMO_CONTRACTOR.projectCodes, CONTRACTOR.projectCodes)
 })
 
-test('legacy seed dates, statuses, IDs, nullable references, and unavailable evidence survive adaptation', () => {
+test('legacy seed dates, statuses, IDs, nullable references, and demo photo evidence survive adaptation', () => {
   const { provider } = fixture({ reports: reportsSeed })
   assert.equal(provider.getReports().length, reportsSeed.length)
   for (const seed of reportsSeed) {
@@ -68,7 +68,7 @@ test('legacy seed dates, statuses, IDs, nullable references, and unavailable evi
     assert.equal(report.progres, seed.progres)
     assert.equal(report.status, seed.status)
     assert.equal(report.referenceVersionId, null)
-    assert.equal(report.evidenceAvailability, 'unavailable')
+    assert.equal(report.evidenceAvailability, 'available')
     assert.equal(report.foto, seed.foto)
     assert.equal(report.revisions.length, 1)
     assert.equal(report.simulationOnly, true)

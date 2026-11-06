@@ -70,7 +70,7 @@ function reviewLabel(report) {
 }
 function deliveryLabel(report) { return deliveryState(report) === 'queued' ? 'Antre di perangkat, belum terkirim' : 'Terkirim'; }
 function evidenceLabel(report) {
-  return ({ expired: 'Kedaluwarsa (TTL foto demo 5 menit)', available: 'Metadata tersedia; berkas belum terhubung ke backoffice', unavailable: 'Tidak tersedia' })[report.evidenceAvailability] || 'Tidak tersedia';
+  return ({ expired: 'Kedaluwarsa (TTL foto demo 5 menit)', available: 'Foto lapangan (contoh) tersedia', unavailable: 'Tidak tersedia' })[report.evidenceAvailability] || 'Tidak tersedia';
 }
 function deliveryComplianceLabel(row) {
   return ({ 'not-due': 'Belum jatuh tempo', missing: 'Belum mengirim', queued: 'Antre, belum diterima', 'on-time': 'Mengirim tepat waktu', late: 'Mengirim terlambat' })[row.deliveryStatus] || 'Tidak tersedia';
@@ -389,6 +389,12 @@ export async function initOperations({ daily, approval, missing, exportRoot } = 
     return `<section class="ops-section"><h2>Riwayat revisi</h2>${revisionRows.length ? tableWrap('Riwayat revisi immutable', ['Versi / ID', 'Progres', 'Dibuat', 'Pelapor', 'Alasan / uraian'], revisionRows, 'Revisi lama tidak ditimpa oleh koreksi') : '<p>Riwayat revisi belum tersedia pada adapter.</p>'}</section>
       <section class="ops-section"><h2>Riwayat keputusan</h2>${decisionRows.length ? tableWrap('Riwayat keputusan monitoring', ['Keputusan / sebelumnya', 'Revisi', 'Hasil', 'Reviewer', 'Waktu', 'Alasan'], decisionRows, 'Keputusan merujuk revisi tertentu, tanpa efek pembayaran') : '<p>Belum ada keputusan untuk laporan ini.</p>'}</section>`;
   }
+  const BASE = import.meta.env.BASE_URL
+  function fotoBukti(report) {
+    const urls = (report.evidenceRefs ?? []).filter((ref) => ref.url)
+    if (!urls.length) return ''
+    return `<div class="ops-foto-grid">${urls.map((ref, index) => `<a href="${e(BASE + ref.url)}" target="_blank" rel="noopener"><img src="${e(BASE + ref.url)}" alt="Foto lapangan ${index + 1} (contoh)" loading="lazy"></a>`).join('')}</div>`
+  }
   function detailView(page, state, id) {
     const report = provider.getReport(id, actor);
     state.detail = report;
@@ -413,7 +419,7 @@ export async function initOperations({ daily, approval, missing, exportRoot } = 
       ].map(([label, value]) => `<div><dt>${e(label)}</dt><dd>${e(value)}</dd></div>`).join('')}</dl>
       <h3>Uraian pekerjaan</h3><p class="ops-prose">${e(report.uraian || 'Tidak tersedia')}</p>
       <h3>Item dan acuan</h3>${measurements.length ? `<ul>${measurements.map((item) => `<li>${e(item.itemId || item.kode || 'Item belum dipetakan')}: ${e(item.volume ?? item.value ?? 'Tidak tersedia')} ${e(item.satuan || '')}</li>`).join('')}</ul>` : '<p>Belum ada pengukuran item terikat acuan pada laporan legacy ini.</p>'}
-      <h3>Bukti dan konteks pemeriksaan</h3><p>${e(evidenceLabel(report))}. Foto demo disimpan di perangkat asal dengan TTL 5 menit; adapter backoffice tidak menyediakan berkas atau arsip permanen.</p>
+      <h3>Bukti dan konteks pemeriksaan</h3>${fotoBukti(report)}<p>${e(evidenceLabel(report))}.</p>
       <p>Metadata lokasi/EXIF tidak tersedia pada adapter ini; geotag tidak diklaim terverifikasi.</p>
       ${down ? '<p class="ops-notice">Progres laporan lebih rendah dari progres efektif yang diterima. Periksa alasan koreksi dan riwayat; penurunan bukan penolakan otomatis.</p>' : ''}
       ${report.anomali?.length ? `<ul>${report.anomali.map((item) => `<li>${e(typeof item === 'object' ? item.message || item.reason || sourceText(item) : item)}</li>`).join('')}</ul>` : ''}

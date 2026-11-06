@@ -219,10 +219,12 @@ export function createDemoProvider({ projects = [], reports = [], contractor = {
     if (!Array.isArray(raw) || raw.length > 10) invalid('evidenceRefs', 'Maksimal sepuluh referensi foto, tanpa konten foto.')
     return raw.map((ref) => {
       const item = typeof ref === 'string' ? { id: ref } : ref
-      if (!plain(item) || Object.keys(item).some((key) => !['id', 'evidenceId', 'expiresAt'].includes(key))) invalid('evidenceRefs', 'Simpan hanya ID dan waktu kedaluwarsa foto IndexedDB.')
+      if (!plain(item) || Object.keys(item).some((key) => !['id', 'evidenceId', 'expiresAt', 'url'].includes(key))) invalid('evidenceRefs', 'Simpan hanya ID, waktu kedaluwarsa, atau berkas foto contoh.')
       const id = text(item.id ?? item.evidenceId, 'evidenceId', { required: true, max: 200 })
       const expiresAt = item.expiresAt == null ? null : instant(item.expiresAt, 'expiresAt')
-      return { id, expiresAt }
+      const url = item.url == null ? null : text(item.url, 'url', { max: 200 })
+      if (url && !/^foto-demo\/[a-z0-9-]+\.jpg$/.test(url)) invalid('url', 'Berkas foto contoh hanya dari folder foto-demo.')
+      return { id, expiresAt, url }
     })
   }
   function content(payload, { base, seed = false } = {}) {
@@ -255,6 +257,7 @@ export function createDemoProvider({ projects = [], reports = [], contractor = {
   }
   function evidenceAvailability(revision, at = clock()) {
     const refs = revision.evidenceRefs
+    if (refs.some((r) => r.url)) return 'available'
     if (refs.length && refs.every((r) => r.expiresAt && r.expiresAt <= at)) return 'expired'
     return 'unavailable'
   }

@@ -238,6 +238,15 @@ test('formal report rows retain source IDs, unavailable legacy reference and exp
   assert.ok(table.rows.some((row) => row.includes('Kedaluwarsa (TTL foto demo 5 menit)')));
 });
 
+
+test('seed laporan membawa foto contoh foto-demo yang tervalidasi', async () => {
+  const { provider } = await import('../admin-data.js');
+  const actor = { id: 'reviewer-demo', role: 'reviewer', projectCodes: provider.getProjects().map((p) => p.kode) };
+  const detail = provider.getReport('L-0911', actor);
+  assert.equal(detail.evidenceAvailability, 'available');
+  assert.ok(detail.evidenceRefs.length >= 2);
+  assert.ok(detail.evidenceRefs.every((ref) => /^foto-demo\/[a-z0-9-]+\.jpg$/.test(ref.url)));
+});
 test('CSV and printable output carry the same snapshot, filter, period, policy, quality and authority disclaimer', () => {
   const { snapshot } = fixture();
   for (const kind of ['progress', 'implementation']) {

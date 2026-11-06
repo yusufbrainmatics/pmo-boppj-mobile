@@ -525,3 +525,8 @@
     break-before: auto;
   }
 }
+
+.ops .ops-foto-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--space-sm); margin-block: var(--space-sm); }
+.ops .ops-foto-grid a { display: block; border: 1px solid var(--color-line); border-radius: var(--radius-m); overflow: hidden; }
+.ops .ops-foto-grid a:focus-visible { outline: 3px solid var(--color-blue); outline-offset: 2px; }
+.ops .ops-foto-grid img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }

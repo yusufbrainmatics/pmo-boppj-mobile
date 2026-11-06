@@ -21,7 +21,7 @@ function laporanDomain(lama = []) {
     if (lokal?.queuedAction) return lokal
     return {
       ...r, id: lokal?.id ?? r.id, domainId: r.id,
-      fotoIds: r.evidenceRefs.map((foto) => foto.id),
+      fotoIds: r.evidenceRefs.filter((foto) => !foto.url).map((foto) => foto.id),
       riwayatVersi: r.revisions,
     }
   })

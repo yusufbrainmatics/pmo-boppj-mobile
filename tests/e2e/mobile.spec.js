@@ -54,10 +54,10 @@ test('offline submit queues on device, then syncs into review simulation', async
   await context.setOffline(true)
   await page.evaluate(() => dispatchEvent(new Event('offline')))
   await page.getByRole('button', { name: 'Kirim progres' }).click()
-  await expect(page.getByText(/antre di perangkat/).first()).toBeVisible()
+  await expect(page.getByText(/Laporan antre/).first()).toBeVisible()
   await context.setOffline(false)
   await page.evaluate(() => dispatchEvent(new Event('online')))
-  await expect(page.getByText(/antre di perangkat; belum masuk/)).toHaveCount(0)
+  await expect(page.getByText(/antre di perangkat/)).toHaveCount(0)
 })
 
 test('rejected report can be revised and keeps revision history', async ({ page }) => {
@@ -84,3 +84,9 @@ for (const width of [320, 390, 768]) {
     }
   })
 }
+
+test('seed report detail shows demo photos', async ({ page }) => {
+  await masuk(page)
+  await page.goto('m/#/riwayat/L-0897')
+  await expect(page.getByAltText(/Foto lapangan 1 \(contoh\)/)).toBeVisible()
+})

@@ -8,6 +8,7 @@
 
   let { id } = $props()
   const l = $derived(app.laporan.find((x) => x.id === id))
+  const fotoContoh = $derived((l?.evidenceRefs ?? []).filter((ref) => ref.url).map((ref) => ref.url))
 </script>
 
 <Page title="Detail laporan" back="/riwayat" tab="riwayat">
@@ -21,10 +22,10 @@
     </div>
 
     {#if l.status === 'ANTRE'}
-      <p class="peringatan wait"><Icon name="offline" size={20} /><span>Laporan antre di perangkat; belum masuk antrean review. Simulasi sinkron berjalan saat koneksi kembali.</span></p>
+      <p class="peringatan wait"><Icon name="offline" size={20} /><span>Laporan tersimpan di perangkat dan dikirim saat sinyal kembali.</span></p>
     {/if}
-    <p class="bantu">Data ilustratif dalam sesi tab yang sama. Status Diterima hanya simulasi monitoring, bukan persetujuan pembayaran atau penerimaan layanan produksi.</p>
-    {#if l.legacyUnmapped}<p class="peringatan wait">Laporan sesi lama belum dipetakan ke provider demo. Isi tetap dapat dibaca; statusnya bukan bukti pengiriman server.</p>{/if}
+    <p class="bantu">Status Diterima berarti terverifikasi monitoring, bukan persetujuan pembayaran.</p>
+    {#if l.legacyUnmapped}<p class="peringatan wait">Laporan dari sesi sebelumnya. Status bukan bukti pengiriman.</p>{/if}
     {#if l.syncError}
       <p class="peringatan bad" role="alert">Antrean belum tersinkron: {l.syncError}</p>
       <button class="btn" disabled={!isOnline()} onclick={sinkron}>Coba sinkron ulang</button>
@@ -66,6 +67,13 @@
       <h3 id="h-foto" class="judul-kartu">Foto lapangan</h3>
       {#if l.fotoIds.length}
         <div class="foto-grid">{#each l.fotoIds as fid, i}<Foto id={fid} alt="Foto lapangan {i + 1}" />{/each}</div>
+      {:else if fotoContoh.length}
+        <div class="foto-grid">
+          {#each fotoContoh as url, i}
+            <a href={import.meta.env.BASE_URL + url} target="_blank" rel="noopener"><img src={import.meta.env.BASE_URL + url} alt="Foto lapangan {i + 1} (contoh)" loading="lazy" /></a>
+          {/each}
+        </div>
+        <p class="bantu">Foto contoh ilustratif.</p>
       {:else if l.foto}
         <div class="foto-grid">{#each Array(l.foto) as _, i}<div class="foto"><span>Foto contoh {i + 1}</span></div>{/each}</div>
         <p class="bantu">Data contoh: foto tidak disertakan pada prototipe.</p>
